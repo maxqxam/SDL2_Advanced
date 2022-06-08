@@ -18,14 +18,13 @@ std::string imagesAddress =
 enum {
     UP,DOWN,
     RIGHT,LEFT,
-    SPACE,RETURN
+    RETURN
 };
 
 bool inWater=false;
-bool heldKeys[6];
-bool triggeredKeys[6];
-int maxJump=4;
-int totalJump=4;
+bool heldKeys[5];
+bool triggeredKeys[4];
+
 std::string imagesPath[] = {
     imagesAddress+"/Tiles1/stone-tbrl.png",
     imagesAddress+"/Tiles1/stone-tbr.png",

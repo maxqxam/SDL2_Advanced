@@ -20,10 +20,10 @@ enum {
     ISINLADDER,
 };
 
-bool ValidMove(int p_index,int dircx,int dircy,bool isHero=false,bool isJump=false)
+bool ValidMove(int p_index,int dircx,int dircy,bool isHero=false)
 {
     bool cond[5]={0,0,0,0,0};
-
+    
     for (int i=0;i!=GSWE::StaticTilesArray.size();i++)
     {
 
@@ -34,6 +34,7 @@ bool ValidMove(int p_index,int dircx,int dircy,bool isHero=false,bool isJump=fal
             (GSWE::StaticTilesArray[i].pos.y==GSWE::DynamicTilesArray[p_index].pos.y+dircy)            
         )
         {
+            // if (dircx&&dircy)
             // std::cout<<"Hit\n";
             if (GSWE::StaticTilesArray[i].imageIndex<16)
             {
@@ -78,17 +79,8 @@ bool ValidMove(int p_index,int dircx,int dircy,bool isHero=false,bool isJump=fal
 
     inWater=cond[ISINWATER]||cond[INWATER];
 
-    if (dircy==1){
-        if (cond[INSTONE]||cond[INLADDER]||cond[INWATER]){
-            totalJump=4;
-        }
-    }
 
     if (cond[INSTONE]){return false;}
-
-    if (((dircy==-1)&&(isJump))&&!cond[ISINLADDER]){
-        return true;
-    }
     if (
     ((dircy==-1)||0)    
     &&
@@ -104,13 +96,6 @@ bool ValidMove(int p_index,int dircx,int dircy,bool isHero=false,bool isJump=fal
 }
 bool MoveDynamicObject(int p_index,int p_dirc,int p_speed,bool moveCamera=false)
 {
-    int lp_dirc=p_dirc;
-    if (p_dirc==SPACE){
-        p_dirc=UP;
-    }
-    if (p_dirc==5){
-        p_dirc=DOWN;
-    }
     if (p_dirc==UP){
         GSWE::DynamicTilesArray[p_index].YRel-=p_speed;
         if (moveCamera)
@@ -144,15 +129,6 @@ bool MoveDynamicObject(int p_index,int p_dirc,int p_speed,bool moveCamera=false)
     mainGrid.RelToGridRel();
 
     if (GSWE::DynamicTilesArray[p_index].YRel==0){
-        if (lp_dirc==SPACE)
-        {
-            totalJump--;
-            if (totalJump==0)
-            {
-                triggeredKeys[SPACE]=0;
-                heldKeys[SPACE]=0;                   
-            }
-        }
     }
     if (
         ((GSWE::DynamicTilesArray[p_index].XRel==0) && ((p_dirc==RIGHT) || (p_dirc==LEFT)))
@@ -184,7 +160,7 @@ void Init(){
     }
 
 
-    LoadLevel("data/tutorial.map");
+    LoadLevel("data/test.map");
 
     mainGrid.SetZoomFocus(GSWE::DynamicTilesArray[heroIndex].pos,0,0);
 }
@@ -205,9 +181,7 @@ void FetchEvents(){
                 case SDLK_RIGHT: if(!heldKeys[RIGHT]) heldKeys[RIGHT]=true;break;
                 case SDLK_LEFT: if(!heldKeys[LEFT]) heldKeys[LEFT]=true;break;
 
-                case SDLK_RETURN: if(!heldKeys[RETURN]) heldKeys[RETURN]=true;break;
-                case SDLK_SPACE: if(!heldKeys[SPACE]) 
-                myout("SPACE\n") heldKeys[SPACE]=true;break;
+                case SDLK_RETURN: if(!heldKeys[RETURN]) heldKeys[RETURN]=true;break;         
                 
             }
         }
@@ -224,7 +198,7 @@ void FetchEvents(){
                 case SDLK_LEFT: if(heldKeys[LEFT]) heldKeys[LEFT]=0;break;
 
                 case SDLK_RETURN: if(heldKeys[RETURN]) heldKeys[RETURN]=0;break;
-                case SDLK_SPACE: if(heldKeys[SPACE]) heldKeys[SPACE]=0;break;
+                
                 
             }
         }
@@ -233,134 +207,48 @@ void FetchEvents(){
 
 void CheckEvents(){
     
-    myout(totalJump) enter
+    
     if (mainWindow.isClosed){shouldRun=false;}
     if (mainWindow.sizeChanged){
         mainGrid.Update(mainWindow.width,mainWindow.height);
     }
 
-    int tempX=0;
-    int tempY=0;
 
-    std::to_string(GSWE::DynamicTilesArray.size());
-
-    // std::cout<<GSWE::DynamicTilesArray.size();
-    GSWE::DynamicTilesArray[0];
-    
-    if (triggeredKeys[5]){heldKeys[SPACE]=false;}
-    
-    if (!triggeredKeys[5]){
-    if (heldKeys[SPACE]&&!triggeredKeys[DOWN]&&!triggeredKeys[UP]&&(totalJump!=0))
+    if(!triggeredKeys[UP]&&!triggeredKeys[DOWN]&&
+            !triggeredKeys[RIGHT]&&!triggeredKeys[LEFT])
     {
-        
-        tempX=0; tempY=-1;
-        
-        if (triggeredKeys[RIGHT]){tempX=1;}
-        else if(triggeredKeys[LEFT]){tempX=-1;}
+        // Up&Down
+        if (heldKeys[UP]&&!triggeredKeys[DOWN])
+        {
+            if (ValidMove(heroIndex,0,-1,1))
+            triggeredKeys[UP]=true;
+        }
+        else if (heldKeys[DOWN]&&!triggeredKeys[UP])
+        {
+            
 
-        if ((tempX==-1)&&(GSWE::DynamicTilesArray[heroIndex].XRel!=0)){
-            tempX=0;
+            if (ValidMove(heroIndex,0,1,1))
+            triggeredKeys[DOWN]=true;
         }
 
-        if (ValidMove(heroIndex,tempX,tempY,1,1)){
-        triggeredKeys[SPACE]=true;
+        // Right&Left
+        else if (heldKeys[RIGHT]&&!triggeredKeys[LEFT])
+        {
+            if (ValidMove(heroIndex,1,0,1))
+            triggeredKeys[RIGHT]=true;
         }
-        tempX=0;tempY=0;
-    }
-
-    else if (heldKeys[UP]&&!triggeredKeys[DOWN])
-    {
-        tempX=0; tempY=-1;
-        
-        if (triggeredKeys[RIGHT]){tempX=1;}
-        else if(triggeredKeys[LEFT]){tempX=-1;}
-
-        if ((tempX==-1)&&(GSWE::DynamicTilesArray[heroIndex].XRel!=0)){
-            tempX=0;
+        else if (heldKeys[LEFT]&&!triggeredKeys[RIGHT])
+        {
+            if (ValidMove(heroIndex,-1,0,1))
+            triggeredKeys[LEFT]=true;
         }
-
-        if (ValidMove(heroIndex,tempX,tempY,1))
-        triggeredKeys[UP]=true;
-
-        tempX=0;tempY=0;
     }
-
-    else if (heldKeys[DOWN]&&!triggeredKeys[UP])
-    {
-        tempY=1;
-        if (triggeredKeys[RIGHT]){tempX=1;}
-        else if(triggeredKeys[LEFT]){tempX=-1;}
-
-        if ((tempX==-1)&&(GSWE::DynamicTilesArray[heroIndex].XRel!=0)){
-            tempX=0;
-        }
-
-        if (ValidMove(heroIndex,tempX,tempY,1))
-        triggeredKeys[DOWN]=true;
-
-        tempX=0;tempY=0;
-    }
-    else if (!triggeredKeys[UP]&&!triggeredKeys[SPACE]&&!triggeredKeys[DOWN])
-    {
-        tempY=1;
-        if (triggeredKeys[RIGHT]){tempX=1;}
-        else if(triggeredKeys[LEFT]){tempX=-1;}
-
-        if ((tempX==-1)&&(GSWE::DynamicTilesArray[heroIndex].XRel!=0)){
-            tempX=0;
-        }
-
-        if (ValidMove(heroIndex,tempX,tempY,1))
-        triggeredKeys[5]=true;
-
-        tempX=0;tempY=0;
-    }
-    }
-
-
-
-
-    if (heldKeys[RIGHT]&&!triggeredKeys[LEFT])
-    {
-        tempX=1;
-        if (triggeredKeys[UP]||triggeredKeys[SPACE]){tempY=-1;}
-        else if(triggeredKeys[DOWN]){tempY=1;}
-
-        if ((tempY==-1)&&(GSWE::DynamicTilesArray[heroIndex].YRel!=0)){
-            tempY=0;
-        }
-
-        if (ValidMove(heroIndex,tempX,tempY,1))
-        triggeredKeys[RIGHT]=true;
-
-        tempX=0;tempY=0;
-    }
-
-    else if (heldKeys[LEFT]&&!triggeredKeys[RIGHT])
-    {
-        tempX=-1;
-        if (triggeredKeys[UP]||triggeredKeys[SPACE]){tempY=-1;}
-        else if(triggeredKeys[DOWN]){tempY=1;}
-       
-        if ((tempY==-1)&&(GSWE::DynamicTilesArray[heroIndex].YRel!=0)){
-            tempY=0;
-        }
-        if (ValidMove(heroIndex,tempX,tempY,1))
-        triggeredKeys[LEFT]=true;
-
-        tempX=0;tempY=0;
-    }
-
 
     int tempSpeed=10;
     for (int i=0;i!=6;i++)
     {
-        // myout(int(triggeredKeys[i])) space
-
         if (triggeredKeys[i])
         {
-            if (i==4){tempSpeed=20;}
-            if (i==5){tempSpeed=20;if(inWater)tempSpeed=5;}
             if(MoveDynamicObject(heroIndex,i,tempSpeed,true))
             {
                 triggeredKeys[i]=false;
@@ -386,7 +274,7 @@ int main(){
         FetchEvents();
         CheckEvents();
         DrawAndUpdate();
-        SDL_Delay(50);
+        SDL_Delay(25);
     }
     return 0;
 }
