@@ -2,10 +2,14 @@ void Init();
 void FetchEvents();
 void CheckEvents();
 void DrawAndUpdate();
+void HandleMovements();
+void Interact();
+void SocialControl();
 // bool MoveDynamicObject(int,int,int); //Cannot Overload blah blah
 
 bool shouldRun = true;
 int heroIndex=0;
+int level=0;
 
 SDL_Event event;
 
@@ -20,6 +24,25 @@ enum {
     RIGHT,LEFT,
     RETURN
 };
+enum {
+    INSTONE,   
+    INWATER,
+    INLADDER,
+    ISINWATER,
+    ISINLADDER,
+};
+
+enum {
+    FISH=33,
+    SIGN0=21,
+    FLOWER0=17,
+    CHEST0=37,
+    GATE0=26,
+    FIRE0=36,
+    PERSON0=29,
+    LEVER=27,
+};
+
 
 bool inWater=false;
 bool heldKeys[5];
@@ -49,19 +72,19 @@ std::string imagesPath[] = {
     // 16
 
     imagesAddress+"/Tiles1/water0.png",
-    imagesAddress+"/Tiles1/flower0.png",
+    imagesAddress+"/Tiles1/flower0.png", //17
     imagesAddress+"/Tiles1/flower1.png",
     imagesAddress+"/Tiles1/flower2.png",
 
     imagesAddress+"/Tiles1/flower3.png",
-    imagesAddress+"/Tiles1/sign0.png",
+    imagesAddress+"/Tiles1/sign0.png",   //21
     imagesAddress+"/Tiles1/sign1.png",
     imagesAddress+"/Tiles1/sign2.png",
 
     imagesAddress+"/Tiles1/sign3.png",
     imagesAddress+"/Tiles1/door0.png",
-    imagesAddress+"/Tiles1/gate0.png",
-    imagesAddress+"/Tiles1/lever0.png",
+    imagesAddress+"/Tiles1/gate0.png",  //26
+    imagesAddress+"/Tiles1/lever0.png", //27
 
     imagesAddress+"/Tiles1/ladder0.png", //28
     imagesAddress+"/Tiles1/person0.png",
@@ -71,7 +94,7 @@ std::string imagesPath[] = {
     // 32
 
     imagesAddress+"/Tiles1/person3.png", 
-    imagesAddress+"/Tiles1/fish0.png",
+    imagesAddress+"/Tiles1/fish0.png",   //33
     imagesAddress+"/Tiles1/bee0.png",
     imagesAddress+"/Characters/hero.png", //35
 

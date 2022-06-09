@@ -42,12 +42,34 @@ namespace GSWE{
         float XRel=0;
         float YRel=0;
 
+        std::vector<std::string> captions;
+        int pointer=0;
+        int state=0;
+
         void RelToPos(){// incomplete
             if (XRel<0){pos.x--;XRel=100+XRel;}
             if (XRel>=100){pos.x++;XRel=XRel-100;}
             if (YRel<0){pos.y--;YRel=100+YRel;}
             if (YRel>=100){pos.y++;YRel=YRel-100;}
         }
+
+        DynamicTiles(Pos p_pos,int p_index,
+                                    float p_x,float p_y)
+        {
+            pos = p_pos;
+            imageIndex=p_index;
+            XRel=p_x;
+            YRel=p_y;
+        };
+
+        void Socialize(std::vector<std::string> p_array,
+                        int p_pointer, int p_state)
+        {
+            captions=p_array;
+            pointer=p_pointer;
+            state=p_state;
+        }
+        
     };
 
     std::vector<StaticTiles> StaticTilesArray;
