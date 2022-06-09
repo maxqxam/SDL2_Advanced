@@ -21,6 +21,7 @@ void CheckEvents(){
     }
 
     HandleMovements();
+    HandleAnimation();
 
     if (heldKeys[RETURN]){
         Interact();

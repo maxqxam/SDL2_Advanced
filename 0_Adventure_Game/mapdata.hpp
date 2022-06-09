@@ -37,9 +37,17 @@ void MakeLevel0(){
         ,2,0);
         } 
 
+        if (i==14)
+        {
+
+        GSWE::DynamicTilesArray[i].Socialize(
+        {"Opening Gate",
+         "Closing Gate"}
+        ,12,0);
+        } 
+
         
     }
-
 
     if (Type==GATE0)
     {
@@ -111,22 +119,7 @@ void MakeLevel0(){
     }    
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
 
     }
 }

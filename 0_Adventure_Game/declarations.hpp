@@ -5,6 +5,8 @@ void DrawAndUpdate();
 void HandleMovements();
 void Interact();
 void SocialControl();
+void StartAnimation(int,bool);
+void HandleAnimation();
 // bool MoveDynamicObject(int,int,int); //Cannot Overload blah blah
 
 bool shouldRun = true;
@@ -96,12 +98,32 @@ std::string imagesPath[] = {
     imagesAddress+"/Tiles1/person3.png", 
     imagesAddress+"/Tiles1/fish0.png",   //33
     imagesAddress+"/Tiles1/bee0.png",
-    imagesAddress+"/Characters/hero.png", //35
+    imagesAddress+"/Tiles1/hero0.png", //35
 
     imagesAddress+"/Tiles1/fire0.png",
     imagesAddress+"/Tiles1/chest0.png",
-    // imagesAddress+"/Tiles1/trapdoor0.png"
-    //37
+    imagesAddress+"/Tiles1/gate1.png",//38
+    imagesAddress+"/Tiles1/gate2.png",
+
+    imagesAddress+"/Tiles1/gate3.png",
+    imagesAddress+"/Tiles1/gate4.png",
+    imagesAddress+"/Tiles1/gate5.png",//42
+    imagesAddress+"/Tiles1/chest1.png",
+
+    imagesAddress+"/Tiles1/chest2.png",
+    imagesAddress+"/Tiles1/chest3.png",
+    imagesAddress+"/Tiles1/door1.png",
+    imagesAddress+"/Tiles1/door2.png",
+
+    //48
+    imagesAddress+"/Tiles1/door3.png",
+    imagesAddress+"/Tiles1/door4.png",
+    imagesAddress+"/Tiles1/lever0-1.png",
+    
+    
 };
 
 
+int leverFrames[] = {LEVER,50};
+int gateFrames[] = {GATE0,38,39,
+                    40,41,42}; //6

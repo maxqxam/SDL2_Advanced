@@ -7,7 +7,13 @@ bool ValidMove(int p_index,int dircx,int dircy,bool isHero=false)
     for (int i=0;i!=GSWE::DynamicTilesArray.size();i++)
     {
         
-        if ((GSWE::DynamicTilesArray[i].imageIndex==GATE0)||
+        if ((GSWE::DynamicTilesArray[i].imageIndex==gateFrames[0])||
+            (GSWE::DynamicTilesArray[i].imageIndex==gateFrames[1])||
+            (GSWE::DynamicTilesArray[i].imageIndex==gateFrames[2])||
+            (GSWE::DynamicTilesArray[i].imageIndex==gateFrames[3])||
+            (GSWE::DynamicTilesArray[i].imageIndex==gateFrames[4])||
+            (GSWE::DynamicTilesArray[i].imageIndex==gateFrames[5])||
+
             (GSWE::DynamicTilesArray[i].imageIndex==PERSON0))
         {
             
@@ -297,21 +303,82 @@ void Interact(){
         }
         enter 
 
-
-        switch (GSWE::DynamicTilesArray[i].imageIndex)
-        {
-            case LEVER:
-            {
+        int tempIndex = GSWE::DynamicTilesArray[i].imageIndex; 
+       
+        if (tempIndex==leverFrames[0]){
                 GSWE::DynamicTilesArray[
                 GSWE::DynamicTilesArray[i].pointer
-                ].state=!GSWE::DynamicTilesArray[
-                GSWE::DynamicTilesArray[i].pointer].state;
-            }
+                ].state=false;
 
+            StartAnimation(GSWE::DynamicTilesArray[i].pointer,false);
 
-
+            GSWE::DynamicTilesArray[i].imageIndex=leverFrames[1];
         }
+        else if (tempIndex==leverFrames[1]){
+                GSWE::DynamicTilesArray[
+                GSWE::DynamicTilesArray[i].pointer
+                ].state=true;
+            
+            StartAnimation(GSWE::DynamicTilesArray[i].pointer,true);
+
+            GSWE::DynamicTilesArray[i].imageIndex=leverFrames[0];
+        }
+                
+           
         
     }
 }
 
+
+void StartAnimation(int p_index,bool ifClosing)
+{
+
+    if (!ifClosing)
+    {
+    GSWE::DynamicTilesArray[p_index].imageIndex=gateFrames[1];
+    }
+    else
+    {
+    GSWE::DynamicTilesArray[p_index].imageIndex=gateFrames[4];
+    }
+}
+
+void HandleAnimation()
+{
+    for (int i=0;i!=GSWE::DynamicTilesArray.size();i++)
+    {
+        if ((SDL_GetTicks()-GSWE::DynamicTilesArray[i].frameTime)>50)
+        { //only if the timing is right
+        GSWE::DynamicTilesArray[i].frameTime=SDL_GetTicks()+50;
+        
+        if (GSWE::DynamicTilesArray[i].state==true) //means if blocked
+        {
+            for (int c=4;c!=0;c--) // This is for Gates
+            {
+                if (GSWE::DynamicTilesArray[i].imageIndex == 
+                    gateFrames[c])
+                {                    
+                    GSWE::DynamicTilesArray[i].imageIndex=gateFrames[c-1];
+                    break;
+                }
+
+            }
+        }
+        else // means if not blocked
+        {
+            for (int c=0;c!=5;c++) // This is for Gates
+            {
+                if (GSWE::DynamicTilesArray[i].imageIndex == 
+                    gateFrames[c])
+                { 
+                    GSWE::DynamicTilesArray[i].imageIndex=gateFrames[c+1];
+                    break;
+                }
+
+            }
+        }
+
+        }// only if the timing is right
+
+    }
+}

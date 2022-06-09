@@ -45,6 +45,7 @@ namespace GSWE{
         std::vector<std::string> captions;
         int pointer=0;
         int state=0;
+        long frameTime=0;
 
         void RelToPos(){// incomplete
             if (XRel<0){pos.x--;XRel=100+XRel;}
