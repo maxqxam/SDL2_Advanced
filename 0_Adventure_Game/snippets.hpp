@@ -1,3 +1,8 @@
+int randint(int a,int b)
+{
+    return (std::rand()%(b-a))+a;
+}
+
 SDL_Texture* loadTexture(SDL_Renderer* p_renderer,
                 std::string path,int &p_width,
                                  int &p_height){

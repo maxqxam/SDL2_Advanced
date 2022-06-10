@@ -14,9 +14,10 @@ int heroIndex=0;
 int level=0;
 
 SDL_Event event;
-
 MyWindow::Window mainWindow;
 GSWE::GridSystem mainGrid;
+SU::SimpleUi mainUi({"HQ: ","HeadQuarters"},{0,0,1000,750});
+
 
 std::string imagesAddress = 
 "/home/yolo/Workstation/Graphies/Tiles/Adventure-Game-Jam/";

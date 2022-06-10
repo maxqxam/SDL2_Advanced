@@ -101,10 +101,8 @@ bool ValidMove(int p_index,int dircx,int dircy,bool isHero=false)
     
     {return false;}
 
-    
 
-
-
+    mainUi.shouldDraw=false;    
     return true;
 }
 
@@ -244,12 +242,34 @@ void FetchEvents(){
 }
 
 void Init(){
+    SDL_Init(SDL_INIT_VIDEO);
+    TTF_Init();
+    std::srand(time(0));
     mainWindow.Init("Adventure Game",1000,750);
     mainGrid.Init(1000,750,10,8);
+    SU::gFont = TTF_OpenFont( "./lazy.ttf", 25 );
+
+    SDL_SetRenderDrawBlendMode(mainWindow.renderer,
+                SDL_BLENDMODE_BLEND);
+
+    SDL_Rect tempRect = {mainWindow.width/5,
+                            mainWindow.height/3,
+                            (mainWindow.width/5)*3,
+                            (mainWindow.height/3)};
+    
+    mainUi.UpdateTexture(mainWindow.renderer,tempRect);
 
     SDL_Texture* tempTexture;
     int tempWidth;
     int tempHeight;
+    
+    
+    
+    
+    
+    if (SU::gFont==NULL) {myout(SDL_GetError()) enter}
+
+
 
     for (int i=0;i!=sizeof(imagesPath)/sizeof(imagesPath[i]);i++){
         tempTexture = loadTexture(mainWindow.renderer,
@@ -292,18 +312,82 @@ void Interact(){
 
     if (shouldInteract)
     {
-        myout("Id : ")
-        myout(i) myout(" Type : ")
-        myout(GSWE::DynamicTilesArray[i].imageIndex)
-        space 
-        if (GSWE::DynamicTilesArray[i].captions.size()!=0){
-            myout(GSWE::DynamicTilesArray[i].captions[0])
-        }else{
-            myout("Nothing to show")
-        }
-        enter 
-
+        
         int tempIndex = GSWE::DynamicTilesArray[i].imageIndex; 
+        mainUi.shouldDraw=true;
+       
+        
+
+        if (tempIndex==leverFrames[0])
+        {
+            
+            
+        }
+        else if(tempIndex==leverFrames[1])
+        {
+            
+            
+        }
+        else if(tempIndex==SIGN0)
+        {
+            for (int c=0;c!=GSWE::DynamicTilesArray[i].captions.size();c++)
+            {
+                if (c==0)
+                {}
+                else if (c==1)
+                {}
+                else if (c==2)
+                {}
+            }
+        }
+        else if(tempIndex==FIRE0)
+        {
+            for (int c=0;c!=GSWE::DynamicTilesArray[i].captions.size();c++)
+            {
+                if (c==0)
+                {}
+                else if (c==1)
+                {}
+                else if (c==2)
+                {}
+            }
+        }
+        else if(tempIndex==FISH)
+        {
+            
+        }
+        else if((tempIndex==gateFrames[0])||
+                (tempIndex==gateFrames[5]))
+        {
+            if (GSWE::DynamicTilesArray[i].state==true)
+            {
+            
+            }
+            else
+            {
+            
+            }
+        }
+        else if(tempIndex==FLOWER0)
+        {
+
+        }
+        else if(tempIndex==PERSON0)
+        {
+
+        }
+
+
+        SDL_Rect tempRect = {mainWindow.width/5,
+                            mainWindow.height/3,
+                            (mainWindow.width/5)*3,
+                            (mainWindow.height/3)};
+    
+       
+        
+
+      
+        
        
         if (tempIndex==leverFrames[0]){
                 GSWE::DynamicTilesArray[
@@ -322,11 +406,9 @@ void Interact(){
             StartAnimation(GSWE::DynamicTilesArray[i].pointer,true);
 
             GSWE::DynamicTilesArray[i].imageIndex=leverFrames[0];
-        }
-                
-           
-        
+        }   
     }
+
 }
 
 
@@ -345,13 +427,18 @@ void StartAnimation(int p_index,bool ifClosing)
 
 void HandleAnimation()
 {
+    SDL_Rect tempRect = {mainWindow.width/5,
+                            mainWindow.height/3,
+                            (mainWindow.width/5)*3,
+                            (mainWindow.height/3)};
+
     for (int i=0;i!=GSWE::DynamicTilesArray.size();i++)
     {
         if ((SDL_GetTicks()-GSWE::DynamicTilesArray[i].frameTime)>50)
         { //only if the timing is right
         GSWE::DynamicTilesArray[i].frameTime=SDL_GetTicks()+50;
         
-        if (GSWE::DynamicTilesArray[i].state==true) //means if blocked
+        if (GSWE::DynamicTilesArray[i].state==true) //means if blocked , opening
         {
             for (int c=4;c!=0;c--) // This is for Gates
             {
@@ -359,12 +446,17 @@ void HandleAnimation()
                     gateFrames[c])
                 {                    
                     GSWE::DynamicTilesArray[i].imageIndex=gateFrames[c-1];
+                    if (c==1){
+                    
+                    
+                        
+                    }
                     break;
                 }
 
             }
         }
-        else // means if not blocked
+        else // means if not blocked, closing
         {
             for (int c=0;c!=5;c++) // This is for Gates
             {
@@ -372,6 +464,10 @@ void HandleAnimation()
                     gateFrames[c])
                 { 
                     GSWE::DynamicTilesArray[i].imageIndex=gateFrames[c+1];
+                    if (c==4){
+                    
+                        
+                    }
                     break;
                 }
 
