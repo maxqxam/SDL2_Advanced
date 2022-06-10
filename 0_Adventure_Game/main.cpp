@@ -33,11 +33,35 @@ void CheckEvents(){
         mainWindow.sizeChanged=false;
     }
 
-    HandleMovements();
+    if (!isInConversation){
+        HandleMovements();
+    }
+    
+    int tempI=0;
+    for (tempI=-1;tempI!=4;tempI++)
+    {if (heldKeys[tempI+1]) break;}
+    if (tempI==4){GSWE::DynamicTilesArray[heroIndex].imageIndex=HERO;}
+    //Fixing hero animation
+
+    int tempSpeed=5;
+    for (int i=0;i!=4;i++)
+    {
+        if (triggeredKeys[i])
+        {
+            if(MoveDynamicObject(heroIndex,i,tempSpeed,true))
+            {
+                triggeredKeys[i]=false;
+                
+            }
+        }
+    }
+
+
     HandleAnimation();
 
     if (heldKeys[RETURN]){
-        Interact();
+        if (isInConversation){HandleConversation();}
+        else{Interact();}
         heldKeys[RETURN]=0;
     }
 
@@ -60,7 +84,7 @@ int main(){
         FetchEvents();
         CheckEvents();
         DrawAndUpdate();
-        SDL_Delay(25);
+        SDL_Delay(15);
     }
     return 0;
 }

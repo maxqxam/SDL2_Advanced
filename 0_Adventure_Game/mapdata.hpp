@@ -14,7 +14,17 @@ void MakeLevel0(){
     {
     Type=GSWE::DynamicTilesArray[i].imageIndex; 
 
-
+    if (Type==CHEST0)
+    {
+        if (i==7)
+        {
+        GSWE::DynamicTilesArray[i].Socialize(
+            {"Opening the chest...",
+            "Silver key obtained!"
+            }
+            ,0,1);
+        }
+    }
     if (Type==FIRE0)
     {
         if (i==4)
@@ -31,8 +41,37 @@ void MakeLevel0(){
         if (i==13)
         {
            GSWE::DynamicTilesArray[i].Socialize(
-            {"You Shall not pass,",
-            "You Shall pass"}
+            {">This must be the bald wise guy",
+             "> whom that flower mentioned,",
+             "Hello!",
+             ": How can i help you young soul?",
+             "> young soul? what is he talking about!",
+             "I want to know who I am, and where am I.",
+             ": Don't you know that already?",
+             "I don't remember.",
+             ": ...",
+             ": It seems that you are a skeleton.",
+             "Ha Ha.",
+             ": Im serious, look at your hands.",
+             "...",
+             "How can this be??",
+             ": Why are you surprised?",
+             "It means that I'm ... dead?",
+             ": Isn't that obvious?",
+             ": You are dead. and this is afterlife.",
+             ": You'r memories are taken away",
+             ": from you. because we are testing you.",
+             "It seems... so unreal!",
+             ": There are various tests wating for you,",
+             ": Pass them and you shall travel back",
+             ": to the living land.",
+             ": Fail them and you shall get,",
+             ": United with NOTHINGLESS.",
+             "But...",
+             "What are the tests?",
+             ": You'll soon find out, ",
+             ": Do not trust anything you hear or see.",
+             ": You'r objective is to find the truth!"}
             ,0,1); 
         }
     }
@@ -43,8 +82,7 @@ void MakeLevel0(){
         {
 
         GSWE::DynamicTilesArray[i].Socialize(
-        {"Opening Gate",
-         "Closing Gate"}
+        {}
         ,2,0);
         } 
 
@@ -52,8 +90,7 @@ void MakeLevel0(){
         {
 
         GSWE::DynamicTilesArray[i].Socialize(
-        {"Opening Gate",
-         "Closing Gate"}
+        {}
         ,12,0);
         } 
 
@@ -85,8 +122,22 @@ void MakeLevel0(){
         if (i==15)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-        {"Hello There!",
-         "Watz up!"}
+        {"Hello?",
+         ": Hello there how can I Help you?",
+         "...",
+         "S**t it can ACTUALLY talk :/",
+         ": :] ...",
+
+         ": How can i Help you?",
+         "I want to know who I am",
+         ": You don't know that already?",
+         "I don't remember...",
+         ": ...",
+
+         ": There is a bald wise guy,",
+         ": around here.",
+         ": FIND HIM, and you shall get",
+         ": your answers."}
         ,0,0); 
         }   
     }
@@ -105,7 +156,12 @@ void MakeLevel0(){
         if (i==5)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"You can talk with flowers,","Yellow flowers ALWAYS tell the truth."}
+             {"You can talk with flowers,",
+             "Yellow flowers ALWAYS tell the truth.",
+             "...",
+             "Flowers Can talk?",
+             "What a lame prank...",
+             "What is this Odd sign anyway?"}
             ,0,0);
         }
 

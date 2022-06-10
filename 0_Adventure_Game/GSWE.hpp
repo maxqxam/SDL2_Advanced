@@ -45,6 +45,7 @@ namespace GSWE{
         std::vector<std::string> captions;
         int pointer=0;
         int state=0;
+        int textIndex=0;
         long frameTime=0;
 
         void RelToPos(){// incomplete

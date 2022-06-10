@@ -50,8 +50,9 @@ namespace SU{
                 textRectArray.push_back({0,0,0,0});
                 textureArray.push_back((SDL_Texture*) NULL);
             }
-
-            GetTexture(p_renderer);
+            if (textArray.size()!=0){
+                GetTexture(p_renderer);
+            }
         }
 
 

@@ -92,15 +92,24 @@ bool ValidMove(int p_index,int dircx,int dircy,bool isHero=false)
 
     inWater=cond[ISINWATER]||cond[INWATER];
 
-
-    if (cond[INSTONE]){return false;}
+    bool result=true;
+    if (cond[INSTONE]){result = false;}
     if (
     ((dircy==-1)||0)    
     &&
     !(cond[ISINLADDER]||cond[INLADDER]||cond[INWATER]||cond[ISINWATER]))
     
-    {return false;}
+    {result = false;}
 
+
+
+
+    if (!result)
+    {
+        GSWE::DynamicTilesArray[heroIndex].imageIndex=HERO;
+        
+        return false;
+    }
 
     mainUi.shouldDraw=false;    
     return true;
@@ -114,6 +123,23 @@ bool MoveDynamicObject(int p_index,int p_dirc,int p_speed,bool moveCamera=false)
         {
             mainGrid.cameraYRel+=p_speed;
         }
+        
+        if ((p_index==heroIndex) &&
+            (SDL_GetTicks()>(GSWE::DynamicTilesArray[heroIndex].frameTime+250))
+            )
+        {
+        GSWE::DynamicTilesArray[heroIndex].frameTime=SDL_GetTicks();
+        if (GSWE::DynamicTilesArray[heroIndex].imageIndex==heroClimbFrames[0])
+        {
+            GSWE::DynamicTilesArray[heroIndex].imageIndex=heroClimbFrames[1];
+        }
+        else
+        {
+            GSWE::DynamicTilesArray[heroIndex].imageIndex=heroClimbFrames[0];
+        }
+        }
+
+
     }
     else if (p_dirc==DOWN){
         GSWE::DynamicTilesArray[p_index].YRel+=p_speed;
@@ -121,6 +147,23 @@ bool MoveDynamicObject(int p_index,int p_dirc,int p_speed,bool moveCamera=false)
         {
             mainGrid.cameraYRel-=p_speed;
         }
+        
+        if ((p_index==heroIndex) &&
+            (SDL_GetTicks()>(GSWE::DynamicTilesArray[heroIndex].frameTime+250))
+            )
+        {
+        GSWE::DynamicTilesArray[heroIndex].frameTime=SDL_GetTicks();
+        if (GSWE::DynamicTilesArray[heroIndex].imageIndex==heroClimbFrames[0])
+        {
+            GSWE::DynamicTilesArray[heroIndex].imageIndex=heroClimbFrames[1];
+        }
+        else
+        {
+            GSWE::DynamicTilesArray[heroIndex].imageIndex=heroClimbFrames[0];
+        }
+        }
+        
+
     }
     else if (p_dirc==RIGHT){
         GSWE::DynamicTilesArray[p_index].XRel+=p_speed;
@@ -128,12 +171,41 @@ bool MoveDynamicObject(int p_index,int p_dirc,int p_speed,bool moveCamera=false)
         {
             mainGrid.cameraXRel-=p_speed;
         }
+
+        if (p_index==heroIndex &&
+            (SDL_GetTicks()>(GSWE::DynamicTilesArray[heroIndex].frameTime+250))
+            )
+        {
+        GSWE::DynamicTilesArray[heroIndex].frameTime=SDL_GetTicks();
+        if (GSWE::DynamicTilesArray[heroIndex].imageIndex==heroRightFrames[0])
+        {
+            GSWE::DynamicTilesArray[heroIndex].imageIndex=heroRightFrames[1];
+        }
+        else
+        {
+            GSWE::DynamicTilesArray[heroIndex].imageIndex=heroRightFrames[0];
+        }
+        }
     }
     else if (p_dirc==LEFT){
         GSWE::DynamicTilesArray[p_index].XRel-=p_speed;
         if (moveCamera)
         {
             mainGrid.cameraXRel+=p_speed;
+        }
+        if (p_index==heroIndex &&
+            (SDL_GetTicks()>(GSWE::DynamicTilesArray[heroIndex].frameTime+250))
+            )
+        {
+        GSWE::DynamicTilesArray[heroIndex].frameTime=SDL_GetTicks();
+        if (GSWE::DynamicTilesArray[heroIndex].imageIndex==heroLeftFrames[0])
+        {
+            GSWE::DynamicTilesArray[heroIndex].imageIndex=heroLeftFrames[1];
+        }
+        else
+        {
+            GSWE::DynamicTilesArray[heroIndex].imageIndex=heroLeftFrames[0];
+        }
         }
     }
 
@@ -186,20 +258,9 @@ void HandleMovements(){
             triggeredKeys[LEFT]=true;
         }
     }
-
-    int tempSpeed=25;
-    for (int i=0;i!=4;i++)
-    {
-        if (triggeredKeys[i])
-        {
-            if(MoveDynamicObject(heroIndex,i,tempSpeed,true))
-            {
-                triggeredKeys[i]=false;
-            }
-        }
-    }
     // Movements >
 }
+
 
 void FetchEvents(){
     while (SDL_PollEvent(&event))
@@ -314,67 +375,87 @@ void Interact(){
     {
         
         int tempIndex = GSWE::DynamicTilesArray[i].imageIndex; 
+        std::vector<std::string> tempTextArray;
         mainUi.shouldDraw=true;
        
         
-
-        if (tempIndex==leverFrames[0])
+        if(tempIndex==FISH) // Fish
         {
-            
-            
+        tempTextArray.push_back(GSWE::DynamicTilesArray[i].captions[randint(0,3)]);
         }
-        else if(tempIndex==leverFrames[1])
-        {
-            
-            
-        }
-        else if(tempIndex==SIGN0)
-        {
-            for (int c=0;c!=GSWE::DynamicTilesArray[i].captions.size();c++)
-            {
-                if (c==0)
-                {}
-                else if (c==1)
-                {}
-                else if (c==2)
-                {}
-            }
-        }
-        else if(tempIndex==FIRE0)
-        {
-            for (int c=0;c!=GSWE::DynamicTilesArray[i].captions.size();c++)
-            {
-                if (c==0)
-                {}
-                else if (c==1)
-                {}
-                else if (c==2)
-                {}
-            }
-        }
-        else if(tempIndex==FISH)
-        {
-            
-        }
-        else if((tempIndex==gateFrames[0])||
+        else if((tempIndex==gateFrames[0])|| // Gate
                 (tempIndex==gateFrames[5]))
         {
             if (GSWE::DynamicTilesArray[i].state==true)
             {
-            
+                tempTextArray.push_back("I cant get past this gate.");
             }
             else
             {
-            
+                tempTextArray.push_back("This gate is open.");
             }
         }
+
+
         else if(tempIndex==FLOWER0)
         {
-
+            if (GSWE::DynamicTilesArray[i].pointer==0)
+            {
+                StartConversation(i,tempTextArray);
+                GSWE::DynamicTilesArray[i].pointer=1;
+            }
+            else
+            {
+                tempTextArray.push_back("Find the bald wise guy.");
+            }
         }
         else if(tempIndex==PERSON0)
         {
+            if (GSWE::DynamicTilesArray[i].pointer==0)
+            {
+                StartConversation(i,tempTextArray);
+                GSWE::DynamicTilesArray[i].pointer=1;
+            }
+            else
+            {
+                if (totoalKeys==0)
+                {tempTextArray.push_back("Go grab the key.");}
+                else
+                {tempTextArray.push_back("Be careful in your journy!");
+                GSWE::DynamicTilesArray[i].state=0;}
 
+    
+            }
+           
+        }
+        else if (tempIndex==leverFrames[0])
+        {
+            tempTextArray.push_back("I pushed the lever.");
+            tempTextArray.push_back("The gate is opening...");
+
+            // StartConversation(i,tempTextArray);
+        }
+        else if(tempIndex==leverFrames[1])
+        {
+            tempTextArray.push_back("I pulled the lever.");
+            tempTextArray.push_back("The gate is closing...");
+            
+
+            // StartConversation(i,tempTextArray);
+            
+        }
+        else if((tempIndex==SIGN0)||(tempIndex==FIRE0))
+        {
+            StartConversation(i,tempTextArray);
+        }
+        else if((tempIndex==chestFrames[0]))
+        {
+            StartConversation(i,tempTextArray);
+            totoalKeys++;
+        }
+        else if(tempIndex==chestFrames[3])
+        {
+            tempTextArray.push_back("I already opened this chest.");
         }
 
 
@@ -385,25 +466,48 @@ void Interact(){
     
        
         
+        mainUi.textArray=tempTextArray;
+
+        mainUi.UpdateTexture(mainWindow.renderer,tempRect);        
 
       
         
-       
-        if (tempIndex==leverFrames[0]){
-                GSWE::DynamicTilesArray[
-                GSWE::DynamicTilesArray[i].pointer
-                ].state=false;
+        if (tempIndex==chestFrames[0])
+        {
+            // StartAnimation(i,false)
+            GSWE::DynamicTilesArray[i].imageIndex=chestFrames[1];
+            GSWE::DynamicTilesArray[i].state = false;
 
-            StartAnimation(GSWE::DynamicTilesArray[i].pointer,false);
+        }
+        else if(tempIndex==chestFrames[3])
+        {
+            // StartAnimation(i,true);
+            // GSWE::DynamicTilesArray[i].imageIndex=chestFrames[2];
+            // GSWE::DynamicTilesArray[i].state=true;
+        }
+        else if (tempIndex==leverFrames[0]){
+
+            GSWE::DynamicTilesArray[
+            GSWE::DynamicTilesArray[i].pointer
+            ].state=false;
+
+            GSWE::DynamicTilesArray[
+            GSWE::DynamicTilesArray[i].pointer
+            ].imageIndex=gateFrames[1];
 
             GSWE::DynamicTilesArray[i].imageIndex=leverFrames[1];
         }
         else if (tempIndex==leverFrames[1]){
-                GSWE::DynamicTilesArray[
-                GSWE::DynamicTilesArray[i].pointer
-                ].state=true;
+
+            GSWE::DynamicTilesArray[
+            GSWE::DynamicTilesArray[i].pointer
+            ].state=true;
             
-            StartAnimation(GSWE::DynamicTilesArray[i].pointer,true);
+            GSWE::DynamicTilesArray[
+                GSWE::DynamicTilesArray[i].pointer
+                ].imageIndex=gateFrames[4];
+            
+            // StartAnimation(GSWE::DynamicTilesArray[i].pointer,true);
 
             GSWE::DynamicTilesArray[i].imageIndex=leverFrames[0];
         }   
@@ -412,18 +516,7 @@ void Interact(){
 }
 
 
-void StartAnimation(int p_index,bool ifClosing)
-{
 
-    if (!ifClosing)
-    {
-    GSWE::DynamicTilesArray[p_index].imageIndex=gateFrames[1];
-    }
-    else
-    {
-    GSWE::DynamicTilesArray[p_index].imageIndex=gateFrames[4];
-    }
-}
 
 void HandleAnimation()
 {
@@ -434,10 +527,13 @@ void HandleAnimation()
 
     for (int i=0;i!=GSWE::DynamicTilesArray.size();i++)
     {
+
         if ((SDL_GetTicks()-GSWE::DynamicTilesArray[i].frameTime)>50)
         { //only if the timing is right
-        GSWE::DynamicTilesArray[i].frameTime=SDL_GetTicks()+50;
-        
+        if (i!=heroIndex)
+        {
+            GSWE::DynamicTilesArray[i].frameTime=SDL_GetTicks()+50;
+        }        
         if (GSWE::DynamicTilesArray[i].state==true) //means if blocked , opening
         {
             for (int c=4;c!=0;c--) // This is for Gates
@@ -447,14 +543,29 @@ void HandleAnimation()
                 {                    
                     GSWE::DynamicTilesArray[i].imageIndex=gateFrames[c-1];
                     if (c==1){
-                    
-                    
-                        
+                        mainUi.textArray.push_back("The gate is now closed.");
+                        mainUi.UpdateTexture(mainWindow.renderer,
+                                tempRect);                        
                     }
                     break;
                 }
-
             }
+
+            for (int c=2;c!=0;c--) // This is for Chests
+            {
+                if (GSWE::DynamicTilesArray[i].imageIndex == 
+                    chestFrames[c])
+                {                    
+                    GSWE::DynamicTilesArray[i].imageIndex=chestFrames[c-1];
+                    if (c==1){
+                        mainUi.textArray.push_back("The chest is now closed.");
+                        mainUi.UpdateTexture(mainWindow.renderer,
+                                tempRect);                        
+                    }
+                    break;
+                }
+            }
+
         }
         else // means if not blocked, closing
         {
@@ -465,12 +576,28 @@ void HandleAnimation()
                 { 
                     GSWE::DynamicTilesArray[i].imageIndex=gateFrames[c+1];
                     if (c==4){
-                    
-                        
+                        mainUi.textArray.push_back("The gate is now opened.");                      
+                        mainUi.UpdateTexture(mainWindow.renderer,
+                                tempRect);
                     }
                     break;
                 }
 
+            }
+
+            for (int c=1;c!=3;c++) // This is for Chests
+            {
+                if (GSWE::DynamicTilesArray[i].imageIndex == 
+                    chestFrames[c])
+                {                    
+                    GSWE::DynamicTilesArray[i].imageIndex=chestFrames[c+1];
+                    if (c==1){
+                        mainUi.textArray.push_back("The chest is now opened.");
+                        mainUi.UpdateTexture(mainWindow.renderer,
+                                tempRect);                        
+                    }
+                    break;
+                }
             }
         }
 

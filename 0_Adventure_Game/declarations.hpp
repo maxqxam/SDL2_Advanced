@@ -7,11 +7,18 @@ void Interact();
 void SocialControl();
 void StartAnimation(int,bool);
 void HandleAnimation();
+void StartConversation(int,std::vector<std::string>&);
+void HandleConversation();
+
 // bool MoveDynamicObject(int,int,int); //Cannot Overload blah blah
 
 bool shouldRun = true;
+bool isInConversation = false;
+int currentConversationId = 0;
+
 int heroIndex=0;
 int level=0;
+int totoalKeys=0;
 
 SDL_Event event;
 MyWindow::Window mainWindow;
@@ -21,6 +28,8 @@ SU::SimpleUi mainUi({"HQ: ","HeadQuarters"},{0,0,1000,750});
 
 std::string imagesAddress = 
 "/home/yolo/Workstation/Graphies/Tiles/Adventure-Game-Jam/";
+
+
 
 enum {
     UP,DOWN,
@@ -44,6 +53,7 @@ enum {
     FIRE0=36,
     PERSON0=29,
     LEVER=27,
+    HERO=35,
 };
 
 
@@ -120,11 +130,22 @@ std::string imagesPath[] = {
     imagesAddress+"/Tiles1/door3.png",
     imagesAddress+"/Tiles1/door4.png",
     imagesAddress+"/Tiles1/lever0-1.png",
+    imagesAddress+"/Tiles1/hero1.png",//51
     
-    
+    imagesAddress+"/Tiles1/hero2.png",
+    imagesAddress+"/Tiles1/hero3.png",//53
+    imagesAddress+"/Tiles1/hero4.png",
+    imagesAddress+"/Tiles1/hero5.png",//55
+
+    imagesAddress+"/Tiles1/hero6.png"
+
+       
 };
-
-
+int heroClimbFrames[] = {55,56};
+int heroLeftFrames[] = {53,54};
+int heroRightFrames[] = {51,52};
 int leverFrames[] = {LEVER,50};
 int gateFrames[] = {GATE0,38,39,
                     40,41,42}; //6
+                    
+int chestFrames[] = {37,43,44,45};
