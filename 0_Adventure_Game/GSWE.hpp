@@ -48,6 +48,9 @@ namespace GSWE{
         int textIndex=0;
         long frameTime=0;
 
+        std::vector<int> moveArray;
+        int moveIndex=0;
+
         void RelToPos(){// incomplete
             if (XRel<0){pos.x--;XRel=100+XRel;}
             if (XRel>=100){pos.x++;XRel=XRel-100;}

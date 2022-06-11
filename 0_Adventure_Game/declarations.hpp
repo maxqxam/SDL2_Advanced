@@ -9,7 +9,7 @@ void StartAnimation(int,bool);
 void HandleAnimation();
 void StartConversation(int,std::vector<std::string>&);
 void HandleConversation();
-
+void HandleObjectCycles();
 // bool MoveDynamicObject(int,int,int); //Cannot Overload blah blah
 
 bool shouldRun = true;
@@ -34,7 +34,8 @@ std::string imagesAddress =
 enum {
     UP,DOWN,
     RIGHT,LEFT,
-    RETURN
+    RETURN,
+    STOP=-1,
 };
 enum {
     INSTONE,   
@@ -47,13 +48,22 @@ enum {
 enum {
     FISH=33,
     SIGN0=21,
+    SIGN1=22,
+    SIGN2=23,
+    SIGN3=24,
+    
     FLOWER0=17,
+    FLOWER1=18,
+    FLOWER2=19,
+    FLOWER3=20,
     CHEST0=37,
     GATE0=26,
     FIRE0=36,
     PERSON0=29,
     LEVER=27,
     HERO=35,
+    BEE=34,
+
 };
 
 
@@ -91,11 +101,11 @@ std::string imagesPath[] = {
 
     imagesAddress+"/Tiles1/flower3.png",
     imagesAddress+"/Tiles1/sign0.png",   //21
-    imagesAddress+"/Tiles1/sign1.png",
-    imagesAddress+"/Tiles1/sign2.png",
+    imagesAddress+"/Tiles1/sign1.png",  //22
+    imagesAddress+"/Tiles1/sign2.png",  //23
 
-    imagesAddress+"/Tiles1/sign3.png",
-    imagesAddress+"/Tiles1/door0.png",
+    imagesAddress+"/Tiles1/sign3.png",   //24
+    imagesAddress+"/Tiles1/door0.png",      //25
     imagesAddress+"/Tiles1/gate0.png",  //26
     imagesAddress+"/Tiles1/lever0.png", //27
 
@@ -108,7 +118,7 @@ std::string imagesPath[] = {
 
     imagesAddress+"/Tiles1/person3.png", 
     imagesAddress+"/Tiles1/fish0.png",   //33
-    imagesAddress+"/Tiles1/bee0.png",
+    imagesAddress+"/Tiles1/bee0.png",   //34
     imagesAddress+"/Tiles1/hero0.png", //35
 
     imagesAddress+"/Tiles1/fire0.png",

@@ -125,7 +125,7 @@ bool MoveDynamicObject(int p_index,int p_dirc,int p_speed,bool moveCamera=false)
         }
         
         if ((p_index==heroIndex) &&
-            (SDL_GetTicks()>(GSWE::DynamicTilesArray[heroIndex].frameTime+250))
+            (SDL_GetTicks()>(GSWE::DynamicTilesArray[heroIndex].frameTime+80))
             )
         {
         GSWE::DynamicTilesArray[heroIndex].frameTime=SDL_GetTicks();
@@ -149,7 +149,7 @@ bool MoveDynamicObject(int p_index,int p_dirc,int p_speed,bool moveCamera=false)
         }
         
         if ((p_index==heroIndex) &&
-            (SDL_GetTicks()>(GSWE::DynamicTilesArray[heroIndex].frameTime+250))
+            (SDL_GetTicks()>(GSWE::DynamicTilesArray[heroIndex].frameTime+80))
             )
         {
         GSWE::DynamicTilesArray[heroIndex].frameTime=SDL_GetTicks();
@@ -341,8 +341,10 @@ void Init(){
 
     }
 
-    LoadLevel("data/tutorial.map");
+    level=1;
+    LoadLevel("data/level1.map");
     SocialControl();
+    mainGrid.cameraZoom=1.3;
 
     mainGrid.SetZoomFocus(GSWE::DynamicTilesArray[heroIndex].pos,0,0);
 }
@@ -379,7 +381,7 @@ void Interact(){
         mainUi.shouldDraw=true;
        
         
-        if(tempIndex==FISH) // Fish
+        if((tempIndex==FISH) || (tempIndex==BEE)) // Fish
         {
         tempTextArray.push_back(GSWE::DynamicTilesArray[i].captions[randint(0,3)]);
         }
@@ -397,16 +399,20 @@ void Interact(){
         }
 
 
-        else if(tempIndex==FLOWER0)
+        else if((tempIndex==FLOWER0)||
+                (tempIndex==FLOWER1)||
+                (tempIndex==FLOWER2)||
+                (tempIndex==FLOWER3))
         {
             if (GSWE::DynamicTilesArray[i].pointer==0)
             {
                 StartConversation(i,tempTextArray);
-                GSWE::DynamicTilesArray[i].pointer=1;
+                if (level==0){GSWE::DynamicTilesArray[i].pointer=1;}
             }
             else
             {
-                tempTextArray.push_back("Find the bald wise guy.");
+                if (level==0){tempTextArray.push_back("Find the bald wise guy.");}
+
             }
         }
         else if(tempIndex==PERSON0)
@@ -444,7 +450,9 @@ void Interact(){
             // StartConversation(i,tempTextArray);
             
         }
-        else if((tempIndex==SIGN0)||(tempIndex==FIRE0))
+        else if((tempIndex==SIGN0)||(tempIndex==FIRE0)||
+                (tempIndex==SIGN1)||(tempIndex==SIGN2)||
+                (tempIndex==SIGN3))
         {
             StartConversation(i,tempTextArray);
         }
@@ -530,7 +538,8 @@ void HandleAnimation()
 
         if ((SDL_GetTicks()-GSWE::DynamicTilesArray[i].frameTime)>50)
         { //only if the timing is right
-        if (i!=heroIndex)
+        if ((i!=heroIndex)&&(GSWE::DynamicTilesArray[i].imageIndex!=BEE)&&
+                    (GSWE::DynamicTilesArray[i].imageIndex!=FISH))
         {
             GSWE::DynamicTilesArray[i].frameTime=SDL_GetTicks()+50;
         }        
@@ -602,6 +611,68 @@ void HandleAnimation()
         }
 
         }// only if the timing is right
+
+    }
+}
+
+void HandleObjectCycles(){
+    for (int i=0;i!=GSWE::DynamicTilesArray.size();i++)
+    {
+    
+    if (GSWE::DynamicTilesArray[i].moveArray.size()!=0)
+    {
+
+
+    if (GSWE::DynamicTilesArray[i].imageIndex==BEE)
+    {
+       if (GSWE::DynamicTilesArray[i].moveArray[
+           GSWE::DynamicTilesArray[i].moveIndex]!=-1)
+       {
+           
+            if 
+            (        
+            MoveDynamicObject(i,GSWE::DynamicTilesArray[i].moveArray
+                                [GSWE::DynamicTilesArray[i].moveIndex]
+                                ,5,0)
+            )
+            {
+                GSWE::DynamicTilesArray[i].moveIndex++;
+                if (GSWE::DynamicTilesArray[i].moveIndex>
+                        GSWE::DynamicTilesArray[i].moveArray.size()-1)
+                {
+                    GSWE::DynamicTilesArray[i].moveIndex=0;
+                }
+            }      
+       }
+       else 
+       {
+
+           if (SDL_GetTicks()>GSWE::DynamicTilesArray[i].frameTime+2500)
+           {
+           
+               GSWE::DynamicTilesArray[i].frameTime=SDL_GetTicks();
+               GSWE::DynamicTilesArray[i].moveIndex++;
+               if (GSWE::DynamicTilesArray[i].moveIndex >
+                    GSWE::DynamicTilesArray[i].moveArray.size())
+               {
+                   GSWE::DynamicTilesArray[i].moveIndex=0;
+               }
+           }
+       }       
+                        
+                        
+        
+        
+    }
+    else if(GSWE::DynamicTilesArray[i].imageIndex==FISH)
+    {
+        // myout("Fish Must move\n")
+    }
+
+
+
+    }
+
 
     }
 }

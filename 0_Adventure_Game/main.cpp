@@ -19,6 +19,23 @@
 
 void CheckEvents(){
       
+    if (level==0)
+    {
+        if (GSWE::DynamicTilesArray[heroIndex].pos.x>26)
+        {
+            myout("Welcome to the next level!\n")
+            LoadLevel("data/level1.map");
+            
+            
+            level=1;
+            SocialControl();
+            mainGrid.SetZoomFocus(GSWE::DynamicTilesArray[heroIndex].pos,0,0);
+        }
+    }
+
+
+
+
     if (mainWindow.isClosed){shouldRun=false;}
     if (mainWindow.sizeChanged){
         mainGrid.Update(mainWindow.width,mainWindow.height);
@@ -37,6 +54,7 @@ void CheckEvents(){
         HandleMovements();
     }
     
+    HandleObjectCycles();
     int tempI=0;
     for (tempI=-1;tempI!=4;tempI++)
     {if (heldKeys[tempI+1]) break;}

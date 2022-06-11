@@ -28,6 +28,8 @@ SDL_Texture* loadTexture(SDL_Renderer* p_renderer,
 }
 
 void LoadLevel(std::string p_path){
+        GSWE::StaticTilesArray.clear();
+        GSWE::DynamicTilesArray.clear();
         std::ifstream inputFile(p_path);
 
         int posx  = 0;
