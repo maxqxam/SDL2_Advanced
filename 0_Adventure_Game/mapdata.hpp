@@ -207,41 +207,67 @@ void MakeLevel1()
     {
         if (i==0)
         {
-        GSWE::DynamicTilesArray[i].Socialize({"Blob","Blob There",
-                                            "Blob Blob"},0,0);
+        GSWE::DynamicTilesArray[i].Socialize({"BLOB!!","BLOB THEEERE!",
+                                            "BLLllooOOoOBBb!!"},0,0);
+        GSWE::DynamicTilesArray[i].state=1;
+        GSWE::DynamicTilesArray[i].moveArray=
+        {
+            UP,RIGHT,
+            DOWN,RIGHT,
+            UP,RIGHT,
+            DOWN,DOWN,RIGHT,
+            UP,UP,RIGHT,
+            DOWN,DOWN,DOWN,RIGHT,
+            STOP,
+            UP,UP,
+            LEFT,LEFT,LEFT,LEFT,LEFT,LEFT,
+        };
         }
         if (i==1)
         {
-        GSWE::DynamicTilesArray[i].Socialize({"...","blob",
+        GSWE::DynamicTilesArray[i].Socialize({"...","blob...",
                                             "blob blob"},0,0);
+        GSWE::DynamicTilesArray[i].moveArray=
+        {RIGHT,RIGHT,
+        UP,RIGHT,RIGHT,RIGHT,RIGHT,
+        STOP,STOP,STOP,
+        LEFT,
+        UP,UP,
+        STOP,STOP,STOP,
+        DOWN,DOWN,
+        RIGHT,
+        STOP,
+        LEFT,LEFT,LEFT,LEFT,LEFT,LEFT,
+        DOWN,
+        };
         }
+       
     }
     else if(Type==BEE)
     {
         GSWE::DynamicTilesArray[i].Socialize({"BIzz"," BIiiiIzZZz",
                                             "Bizzzz"},0,0);
-
-        if (i==17)
+        
+        if (i==17) // Liers garden
         {
         GSWE::DynamicTilesArray[i].moveArray=
         {DOWN,DOWN,DOWN,
-        STOP,STOP,STOP,
-        UP,UP,UP,
-        LEFT,LEFT,LEFT,
+        FREEZE,FREEZE,FREEZE,
         UP,
         RIGHT,RIGHT,RIGHT,
-        DOWN,
-        LEFT,LEFT,LEFT,
-        UP,
+        STOP,
         RIGHT,RIGHT,RIGHT,
-        DOWN,
+        DOWN,FREEZE,FREEZE,
+        UP,RIGHT,
+        STOP,
         LEFT,LEFT,LEFT,
-        UP,
-        RIGHT,RIGHT,RIGHT,
-        DOWN,
+        STOP,LEFT,LEFT,LEFT,LEFT,
+        STOP,STOP,
+        UP,UP
+        
         };
         }
-        if (i==18)
+        if (i==18) // First bee
         {
           GSWE::DynamicTilesArray[i].moveArray=
         {
@@ -250,7 +276,7 @@ void MakeLevel1()
         LEFT,LEFT,
         STOP,
         RIGHT,RIGHT,UP,
-        STOP,
+        FREEZE,
         LEFT,LEFT,LEFT,
         STOP,
         LEFT,LEFT,LEFT,LEFT,
@@ -260,6 +286,76 @@ void MakeLevel1()
         STOP,
         DOWN,
         RIGHT,RIGHT,RIGHT,RIGHT
+        };  
+        }
+        if (i==19) //End game
+        {
+          GSWE::DynamicTilesArray[i].moveArray=
+        {
+        LEFT,LEFT,LEFT,LEFT,
+        LEFT,LEFT,LEFT,LEFT,
+        LEFT,LEFT,LEFT,LEFT,
+
+        DOWN,DOWN,DOWN,DOWN,
+        DOWN,DOWN,DOWN,
+        FREEZE,FREEZE,FREEZE, //Landing
+        UP,UP,UP,
+        STOP,STOP,STOP,
+        STOP,
+        UP,UP,UP,
+        UP,
+        RIGHT,RIGHT,RIGHT,RIGHT,
+        RIGHT,RIGHT,RIGHT,RIGHT,
+        RIGHT,RIGHT,RIGHT,RIGHT,
+
+        };  
+        }
+        if (i==20)//Secret Garden
+        {
+          GSWE::DynamicTilesArray[i].moveArray=
+        {
+        UP,UP,UP,UP,
+        RIGHT,RIGHT,RIGHT,RIGHT,
+        RIGHT,RIGHT,RIGHT,RIGHT,
+        RIGHT,RIGHT,RIGHT,RIGHT,
+        DOWN,DOWN,DOWN,
+        STOP,STOP,STOP,
+        UP,UP,UP,
+        LEFT,LEFT,LEFT,LEFT,
+        LEFT,LEFT,LEFT,LEFT,
+        DOWN,DOWN,DOWN,
+        LEFT,LEFT,LEFT,LEFT,
+        STOP,STOP,
+        DOWN,DOWN,DOWN,DOWN,
+        FREEZE,FREEZE,FREEZE, // Landing
+        UP,UP,UP
+        };  
+        }
+        if (i==21) //Secret garden
+        {
+          GSWE::DynamicTilesArray[i].moveArray=
+        {
+        DOWN,DOWN,
+        RIGHT,RIGHT,
+        STOP,STOP,
+        RIGHT,RIGHT,
+        RIGHT,RIGHT,
+        STOP,
+        LEFT,LEFT,LEFT,LEFT,
+        STOP,STOP,
+        LEFT,LEFT,LEFT,
+        DOWN,
+        STOP,
+        RIGHT,RIGHT,
+        STOP,
+        RIGHT,RIGHT,
+        STOP,
+        RIGHT,RIGHT,
+        STOP,
+        LEFT,LEFT,LEFT,LEFT,
+        UP,
+        LEFT,LEFT,
+        UP,UP,RIGHT
         };  
         }
     }

@@ -19,6 +19,13 @@ int currentConversationId = 0;
 int heroIndex=0;
 int level=0;
 int totoalKeys=0;
+int heroSpeed = 20;
+int beeSpeed = 4;
+int fishSpeed = 2;
+float zoom = 0.8;
+
+Mix_Chunk* footstep=NULL; 
+Mix_Chunk* ding=NULL;
 
 SDL_Event event;
 MyWindow::Window mainWindow;
@@ -36,6 +43,7 @@ enum {
     RIGHT,LEFT,
     RETURN,
     STOP=-1,
+    FREEZE=-2,
 };
 enum {
     INSTONE,   
@@ -147,7 +155,16 @@ std::string imagesPath[] = {
     imagesAddress+"/Tiles1/hero4.png",
     imagesAddress+"/Tiles1/hero5.png",//55
 
-    imagesAddress+"/Tiles1/hero6.png"
+    imagesAddress+"/Tiles1/hero6.png",
+    imagesAddress+"/Tiles1/bee1.png",//57
+    imagesAddress+"/Tiles1/bee2.png",//58
+    imagesAddress+"/Tiles1/bee3.png",//59
+    
+    imagesAddress+"/Tiles1/fish1.png",//60
+    imagesAddress+"/Tiles1/fish2.png",//61
+    imagesAddress+"/Tiles1/fish3.png",//62
+
+
 
        
 };
@@ -159,3 +176,7 @@ int gateFrames[] = {GATE0,38,39,
                     40,41,42}; //6
                     
 int chestFrames[] = {37,43,44,45};
+int beeFramesRight[] = {34,57};
+int beeFramesLeft[]  = {58,59};
+int fishFramesLeft[]={33,60};
+int fishFramesRight[]={61,62};

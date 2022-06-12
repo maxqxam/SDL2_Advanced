@@ -4,6 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include <fstream>
+#include <SDL2/SDL_mixer.h>
 
 #include "GSWE.hpp"
 #include "MyWindow.hpp"
@@ -61,7 +62,7 @@ void CheckEvents(){
     if (tempI==4){GSWE::DynamicTilesArray[heroIndex].imageIndex=HERO;}
     //Fixing hero animation
 
-    int tempSpeed=5;
+    int tempSpeed=heroSpeed;
     for (int i=0;i!=4;i++)
     {
         if (triggeredKeys[i])
@@ -69,7 +70,7 @@ void CheckEvents(){
             if(MoveDynamicObject(heroIndex,i,tempSpeed,true))
             {
                 triggeredKeys[i]=false;
-                
+                Mix_PlayChannel(-1,footstep,0);        
             }
         }
     }
@@ -81,6 +82,7 @@ void CheckEvents(){
         if (isInConversation){HandleConversation();}
         else{Interact();}
         heldKeys[RETURN]=0;
+        Mix_PlayChannel(-1,ding,0);
     }
 
 }

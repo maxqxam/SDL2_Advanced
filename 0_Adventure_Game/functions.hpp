@@ -303,13 +303,17 @@ void FetchEvents(){
 }
 
 void Init(){
-    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+    Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
     TTF_Init();
     std::srand(time(0));
     mainWindow.Init("Adventure Game",1000,750);
     mainGrid.Init(1000,750,10,8);
+    // mainGrid.backgroundColor={0,0,0};
     SU::gFont = TTF_OpenFont( "./lazy.ttf", 25 );
-
+    footstep = Mix_LoadWAV("data/footstep0.wav");
+    ding = Mix_LoadWAV("data/ding.wav");
+    
     SDL_SetRenderDrawBlendMode(mainWindow.renderer,
                 SDL_BLENDMODE_BLEND);
 
@@ -326,7 +330,7 @@ void Init(){
     
     
     
-    
+    // Mix_PlayChannel(-1,footstep,10);
     
     if (SU::gFont==NULL) {myout(SDL_GetError()) enter}
 
@@ -344,7 +348,7 @@ void Init(){
     level=1;
     LoadLevel("data/level1.map");
     SocialControl();
-    mainGrid.cameraZoom=1.3;
+    mainGrid.cameraZoom=zoom;
 
     mainGrid.SetZoomFocus(GSWE::DynamicTilesArray[heroIndex].pos,0,0);
 }
@@ -381,7 +385,15 @@ void Interact(){
         mainUi.shouldDraw=true;
        
         
-        if((tempIndex==FISH) || (tempIndex==BEE)) // Fish
+        if((tempIndex==fishFramesLeft[0])||
+           (tempIndex==fishFramesLeft[1])||
+           (tempIndex==fishFramesRight[0])||
+           (tempIndex==fishFramesRight[1])||
+           
+           (tempIndex==beeFramesLeft[0])||
+           (tempIndex==beeFramesLeft[1])||
+           (tempIndex==beeFramesRight[0])||
+           (tempIndex==beeFramesRight[1]))
         {
         tempTextArray.push_back(GSWE::DynamicTilesArray[i].captions[randint(0,3)]);
         }
@@ -536,12 +548,21 @@ void HandleAnimation()
     for (int i=0;i!=GSWE::DynamicTilesArray.size();i++)
     {
 
-        if ((SDL_GetTicks()-GSWE::DynamicTilesArray[i].frameTime)>50)
+        if ((SDL_GetTicks()-GSWE::DynamicTilesArray[i].frameTime)>100)
         { //only if the timing is right
-        if ((i!=heroIndex)&&(GSWE::DynamicTilesArray[i].imageIndex!=BEE)&&
-                    (GSWE::DynamicTilesArray[i].imageIndex!=FISH))
+        if (
+            (i!=heroIndex)&&
+            (GSWE::DynamicTilesArray[i].imageIndex!=beeFramesLeft[0])&&
+            (GSWE::DynamicTilesArray[i].imageIndex!=beeFramesLeft[1])&&
+            (GSWE::DynamicTilesArray[i].imageIndex!=beeFramesRight[0])&&
+            (GSWE::DynamicTilesArray[i].imageIndex!=beeFramesRight[1])&&
+            (GSWE::DynamicTilesArray[i].imageIndex!=fishFramesLeft[0])&&
+            (GSWE::DynamicTilesArray[i].imageIndex!=fishFramesLeft[1])&&
+            (GSWE::DynamicTilesArray[i].imageIndex!=fishFramesRight[0])&&
+            (GSWE::DynamicTilesArray[i].imageIndex!=fishFramesRight[1])
+        )
         {
-            GSWE::DynamicTilesArray[i].frameTime=SDL_GetTicks()+50;
+            GSWE::DynamicTilesArray[i].frameTime=SDL_GetTicks();
         }        
         if (GSWE::DynamicTilesArray[i].state==true) //means if blocked , opening
         {
@@ -615,6 +636,106 @@ void HandleAnimation()
     }
 }
 
+void FishAnimate(int p_index)
+{
+    if ((GSWE::DynamicTilesArray[p_index].imageIndex==fishFramesLeft[0]) ||
+        (GSWE::DynamicTilesArray[p_index].imageIndex==fishFramesLeft[1]) ||
+        (GSWE::DynamicTilesArray[p_index].imageIndex==fishFramesRight[0]) ||
+        (GSWE::DynamicTilesArray[p_index].imageIndex==fishFramesRight[1]))
+    {    
+
+    if ((GSWE::DynamicTilesArray[p_index].moveArray
+        [GSWE::DynamicTilesArray[p_index].moveIndex]==RIGHT)
+        &&
+        ((GSWE::DynamicTilesArray[p_index].imageIndex!=fishFramesRight[0])&&
+         (GSWE::DynamicTilesArray[p_index].imageIndex!=fishFramesRight[1])))
+
+    {GSWE::DynamicTilesArray[p_index].imageIndex=fishFramesRight[0];}
+
+    else if((GSWE::DynamicTilesArray[p_index].moveArray
+        [GSWE::DynamicTilesArray[p_index].moveIndex]==LEFT)
+        &&
+        ((GSWE::DynamicTilesArray[p_index].imageIndex!=fishFramesLeft[0])&&
+         (GSWE::DynamicTilesArray[p_index].imageIndex!=fishFramesLeft[1])))
+
+    {
+    {GSWE::DynamicTilesArray[p_index].imageIndex=fishFramesLeft[0];}
+    }
+    
+
+    if ((GSWE::DynamicTilesArray[p_index].frameTime2 + 250
+       < SDL_GetTicks()) &&(GSWE::DynamicTilesArray[p_index].moveArray
+        [GSWE::DynamicTilesArray[p_index].moveIndex]!=FREEZE)    
+       )
+    {
+        GSWE::DynamicTilesArray[p_index].frameTime2 = SDL_GetTicks();
+        if (GSWE::DynamicTilesArray[p_index].imageIndex==fishFramesLeft[0])
+        {GSWE::DynamicTilesArray[p_index].imageIndex=fishFramesLeft[1];}
+
+        else if (GSWE::DynamicTilesArray[p_index].imageIndex==fishFramesLeft[1])
+        {GSWE::DynamicTilesArray[p_index].imageIndex=fishFramesLeft[0];}
+
+        else if (GSWE::DynamicTilesArray[p_index].imageIndex==fishFramesRight[0])
+        {GSWE::DynamicTilesArray[p_index].imageIndex=fishFramesRight[1];}
+
+        else if (GSWE::DynamicTilesArray[p_index].imageIndex==fishFramesRight[1])
+        {GSWE::DynamicTilesArray[p_index].imageIndex=fishFramesRight[0];} 
+        }
+    }
+}
+
+
+void BeeAnimate(int p_index)
+{
+    
+    if ((GSWE::DynamicTilesArray[p_index].imageIndex==beeFramesLeft[0]) ||
+        (GSWE::DynamicTilesArray[p_index].imageIndex==beeFramesLeft[1]) ||
+        (GSWE::DynamicTilesArray[p_index].imageIndex==beeFramesRight[0]) ||
+        (GSWE::DynamicTilesArray[p_index].imageIndex==beeFramesRight[1]))
+    {
+
+    
+
+    if ((GSWE::DynamicTilesArray[p_index].moveArray
+        [GSWE::DynamicTilesArray[p_index].moveIndex]==RIGHT)
+        &&
+        ((GSWE::DynamicTilesArray[p_index].imageIndex!=beeFramesRight[0])&&
+         (GSWE::DynamicTilesArray[p_index].imageIndex!=beeFramesRight[1])))
+
+    {GSWE::DynamicTilesArray[p_index].imageIndex=beeFramesRight[0];}
+
+    else if((GSWE::DynamicTilesArray[p_index].moveArray
+        [GSWE::DynamicTilesArray[p_index].moveIndex]==LEFT)
+        &&
+        ((GSWE::DynamicTilesArray[p_index].imageIndex!=beeFramesLeft[0])&&
+         (GSWE::DynamicTilesArray[p_index].imageIndex!=beeFramesLeft[1])))
+
+    {
+    {GSWE::DynamicTilesArray[p_index].imageIndex=beeFramesLeft[0];}
+    }
+    
+
+    if ((GSWE::DynamicTilesArray[p_index].frameTime2 + 250
+       < SDL_GetTicks()) &&(GSWE::DynamicTilesArray[p_index].moveArray
+        [GSWE::DynamicTilesArray[p_index].moveIndex]!=FREEZE)    
+       )
+    {
+        GSWE::DynamicTilesArray[p_index].frameTime2 = SDL_GetTicks();
+        if (GSWE::DynamicTilesArray[p_index].imageIndex==beeFramesLeft[0])
+        {GSWE::DynamicTilesArray[p_index].imageIndex=beeFramesLeft[1];}
+
+        else if (GSWE::DynamicTilesArray[p_index].imageIndex==beeFramesLeft[1])
+        {GSWE::DynamicTilesArray[p_index].imageIndex=beeFramesLeft[0];}
+
+        else if (GSWE::DynamicTilesArray[p_index].imageIndex==beeFramesRight[0])
+        {GSWE::DynamicTilesArray[p_index].imageIndex=beeFramesRight[1];}
+
+        else if (GSWE::DynamicTilesArray[p_index].imageIndex==beeFramesRight[1])
+        {GSWE::DynamicTilesArray[p_index].imageIndex=beeFramesRight[0];} 
+        }
+    }
+    
+}
 void HandleObjectCycles(){
     for (int i=0;i!=GSWE::DynamicTilesArray.size();i++)
     {
@@ -622,18 +743,45 @@ void HandleObjectCycles(){
     if (GSWE::DynamicTilesArray[i].moveArray.size()!=0)
     {
 
+    int speed = beeSpeed;
+    if ((GSWE::DynamicTilesArray[i].imageIndex==beeFramesLeft[0]) ||
+        (GSWE::DynamicTilesArray[i].imageIndex==beeFramesLeft[1]) ||
+        (GSWE::DynamicTilesArray[i].imageIndex==beeFramesRight[0]) ||
+        (GSWE::DynamicTilesArray[i].imageIndex==beeFramesRight[1]) ||
 
-    if (GSWE::DynamicTilesArray[i].imageIndex==BEE)
+        (GSWE::DynamicTilesArray[i].imageIndex==fishFramesLeft[0]) ||
+        (GSWE::DynamicTilesArray[i].imageIndex==fishFramesLeft[1]) ||
+        (GSWE::DynamicTilesArray[i].imageIndex==fishFramesRight[0]) ||
+        (GSWE::DynamicTilesArray[i].imageIndex==fishFramesRight[1])
+        )
     {
-       if (GSWE::DynamicTilesArray[i].moveArray[
-           GSWE::DynamicTilesArray[i].moveIndex]!=-1)
+       
+       BeeAnimate(i);
+       FishAnimate(i);
+
+       if ((GSWE::DynamicTilesArray[i].moveArray[
+           GSWE::DynamicTilesArray[i].moveIndex]!=STOP) && 
+           (GSWE::DynamicTilesArray[i].moveArray[
+           GSWE::DynamicTilesArray[i].moveIndex]!=FREEZE))
        {
-           
+            if ((GSWE::DynamicTilesArray[i].imageIndex==fishFramesLeft[0]) ||
+                (GSWE::DynamicTilesArray[i].imageIndex==fishFramesLeft[1]) ||
+                (GSWE::DynamicTilesArray[i].imageIndex==fishFramesRight[0]) ||
+                (GSWE::DynamicTilesArray[i].imageIndex==fishFramesRight[1]))
+            {
+                speed=fishSpeed;
+                if (GSWE::DynamicTilesArray[i].state==1)
+                {
+                    speed*=2;
+                }
+            }
+
+            
             if 
             (        
             MoveDynamicObject(i,GSWE::DynamicTilesArray[i].moveArray
                                 [GSWE::DynamicTilesArray[i].moveIndex]
-                                ,5,0)
+                                ,speed,0)
             )
             {
                 GSWE::DynamicTilesArray[i].moveIndex++;
@@ -658,16 +806,9 @@ void HandleObjectCycles(){
                    GSWE::DynamicTilesArray[i].moveIndex=0;
                }
            }
-       }       
-                        
-                        
-        
-        
+       }                                                                
     }
-    else if(GSWE::DynamicTilesArray[i].imageIndex==FISH)
-    {
-        // myout("Fish Must move\n")
-    }
+    
 
 
 

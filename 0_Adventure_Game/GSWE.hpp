@@ -47,7 +47,7 @@ namespace GSWE{
         int state=0;
         int textIndex=0;
         long frameTime=0;
-
+        long frameTime2=0;
         std::vector<int> moveArray;
         int moveIndex=0;
 
