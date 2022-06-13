@@ -34,7 +34,7 @@ SU::SimpleUi mainUi({"HQ: ","HeadQuarters"},{0,0,1000,750});
 
 
 std::string imagesAddress = 
-"/home/yolo/Workstation/Graphies/Tiles/Adventure-Game-Jam/";
+".";
 
 
 
@@ -83,89 +83,89 @@ bool heldKeys[7];
 bool triggeredKeys[4];
 
 std::string imagesPath[] = {
-    imagesAddress+"/Tiles1/stone-tbrl.png",
-    imagesAddress+"/Tiles1/stone-tbr.png",
-    imagesAddress+"/Tiles1/stone-tbl.png",
-    imagesAddress+"/Tiles1/stone-tb.png",
+    imagesAddress+"/data/images/stone-tbrl.png",
+    imagesAddress+"/data/images/stone-tbr.png",
+    imagesAddress+"/data/images/stone-tbl.png",
+    imagesAddress+"/data/images/stone-tb.png",
     
-    imagesAddress+"/Tiles1/stone-trl.png",
-    imagesAddress+"/Tiles1/stone-tr.png",
-    imagesAddress+"/Tiles1/stone-tl.png",
-    imagesAddress+"/Tiles1/stone-t.png",
+    imagesAddress+"/data/images/stone-trl.png",
+    imagesAddress+"/data/images/stone-tr.png",
+    imagesAddress+"/data/images/stone-tl.png",
+    imagesAddress+"/data/images/stone-t.png",
     
-    imagesAddress+"/Tiles1/stone-brl.png",
-    imagesAddress+"/Tiles1/stone-br.png",
-    imagesAddress+"/Tiles1/stone-bl.png",
-    imagesAddress+"/Tiles1/stone-b.png",
+    imagesAddress+"/data/images/stone-brl.png",
+    imagesAddress+"/data/images/stone-br.png",
+    imagesAddress+"/data/images/stone-bl.png",
+    imagesAddress+"/data/images/stone-b.png",
     
-    imagesAddress+"/Tiles1/stone-rl.png",
-    imagesAddress+"/Tiles1/stone-r.png",
-    imagesAddress+"/Tiles1/stone-l.png",
-    imagesAddress+"/Tiles1/stone.png",
+    imagesAddress+"/data/images/stone-rl.png",
+    imagesAddress+"/data/images/stone-r.png",
+    imagesAddress+"/data/images/stone-l.png",
+    imagesAddress+"/data/images/stone.png",
 
     // 16
 
-    imagesAddress+"/Tiles1/water0.png",
-    imagesAddress+"/Tiles1/flower0.png", //17
-    imagesAddress+"/Tiles1/flower1.png",
-    imagesAddress+"/Tiles1/flower2.png",
+    imagesAddress+"/data/images/water0.png",
+    imagesAddress+"/data/images/flower0.png", //17
+    imagesAddress+"/data/images/flower1.png",
+    imagesAddress+"/data/images/flower2.png",
 
-    imagesAddress+"/Tiles1/flower3.png",
-    imagesAddress+"/Tiles1/sign0.png",   //21
-    imagesAddress+"/Tiles1/sign1.png",  //22
-    imagesAddress+"/Tiles1/sign2.png",  //23
+    imagesAddress+"/data/images/flower3.png",
+    imagesAddress+"/data/images/sign0.png",   //21
+    imagesAddress+"/data/images/sign1.png",  //22
+    imagesAddress+"/data/images/sign2.png",  //23
 
-    imagesAddress+"/Tiles1/sign3.png",   //24
-    imagesAddress+"/Tiles1/door0.png",      //25
-    imagesAddress+"/Tiles1/gate0.png",  //26
-    imagesAddress+"/Tiles1/lever0.png", //27
+    imagesAddress+"/data/images/sign3.png",   //24
+    imagesAddress+"/data/images/door0.png",      //25
+    imagesAddress+"/data/images/gate0.png",  //26
+    imagesAddress+"/data/images/lever0.png", //27
 
-    imagesAddress+"/Tiles1/ladder0.png", //28
-    imagesAddress+"/Tiles1/person0.png",
-    imagesAddress+"/Tiles1/person1.png",
-    imagesAddress+"/Tiles1/person2.png",
+    imagesAddress+"/data/images/ladder0.png", //28
+    imagesAddress+"/data/images/person0.png",
+    imagesAddress+"/data/images/person1.png",
+    imagesAddress+"/data/images/person2.png",
 
     // 32
 
-    imagesAddress+"/Tiles1/person3.png", 
-    imagesAddress+"/Tiles1/fish0.png",   //33
-    imagesAddress+"/Tiles1/bee0.png",   //34
-    imagesAddress+"/Tiles1/hero0.png", //35
+    imagesAddress+"/data/images/person3.png", 
+    imagesAddress+"/data/images/fish0.png",   //33
+    imagesAddress+"/data/images/bee0.png",   //34
+    imagesAddress+"/data/images/hero0.png", //35
 
-    imagesAddress+"/Tiles1/fire0.png",
-    imagesAddress+"/Tiles1/chest0.png",
-    imagesAddress+"/Tiles1/gate1.png",//38
-    imagesAddress+"/Tiles1/gate2.png",
+    imagesAddress+"/data/images/fire0.png",
+    imagesAddress+"/data/images/chest0.png",
+    imagesAddress+"/data/images/gate1.png",//38
+    imagesAddress+"/data/images/gate2.png",
 
-    imagesAddress+"/Tiles1/gate3.png",
-    imagesAddress+"/Tiles1/gate4.png",
-    imagesAddress+"/Tiles1/gate5.png",//42
-    imagesAddress+"/Tiles1/chest1.png",
+    imagesAddress+"/data/images/gate3.png",
+    imagesAddress+"/data/images/gate4.png",
+    imagesAddress+"/data/images/gate5.png",//42
+    imagesAddress+"/data/images/chest1.png",
 
-    imagesAddress+"/Tiles1/chest2.png",
-    imagesAddress+"/Tiles1/chest3.png",
-    imagesAddress+"/Tiles1/door1.png",//46
-    imagesAddress+"/Tiles1/door2.png",//47
+    imagesAddress+"/data/images/chest2.png",
+    imagesAddress+"/data/images/chest3.png",
+    imagesAddress+"/data/images/door1.png",//46
+    imagesAddress+"/data/images/door2.png",//47
 
     //48
-    imagesAddress+"/Tiles1/door3.png",//48
-    imagesAddress+"/Tiles1/door4.png",//49
-    imagesAddress+"/Tiles1/lever0-1.png",
-    imagesAddress+"/Tiles1/hero1.png",//51
+    imagesAddress+"/data/images/door3.png",//48
+    imagesAddress+"/data/images/door4.png",//49
+    imagesAddress+"/data/images/lever0-1.png",
+    imagesAddress+"/data/images/hero1.png",//51
     
-    imagesAddress+"/Tiles1/hero2.png",
-    imagesAddress+"/Tiles1/hero3.png",//53
-    imagesAddress+"/Tiles1/hero4.png",
-    imagesAddress+"/Tiles1/hero5.png",//55
+    imagesAddress+"/data/images/hero2.png",
+    imagesAddress+"/data/images/hero3.png",//53
+    imagesAddress+"/data/images/hero4.png",
+    imagesAddress+"/data/images/hero5.png",//55
 
-    imagesAddress+"/Tiles1/hero6.png",
-    imagesAddress+"/Tiles1/bee1.png",//57
-    imagesAddress+"/Tiles1/bee2.png",//58
-    imagesAddress+"/Tiles1/bee3.png",//59
+    imagesAddress+"/data/images/hero6.png",
+    imagesAddress+"/data/images/bee1.png",//57
+    imagesAddress+"/data/images/bee2.png",//58
+    imagesAddress+"/data/images/bee3.png",//59
     
-    imagesAddress+"/Tiles1/fish1.png",//60
-    imagesAddress+"/Tiles1/fish2.png",//61
-    imagesAddress+"/Tiles1/fish3.png",//62
+    imagesAddress+"/data/images/fish1.png",//60
+    imagesAddress+"/data/images/fish2.png",//61
+    imagesAddress+"/data/images/fish3.png",//62
 
 
 
