@@ -16,7 +16,47 @@ void MakeLevel1()
     Type=GSWE::DynamicTilesArray[i].imageIndex;
 
 
-    if (Type==GATE0)
+    if (Type==DOOR)
+    {
+        
+        if (i==8)
+        {
+            GSWE::DynamicTilesArray[i].Socialize(
+            {"This is the door behind the green sign",
+            "The sign said it is supposed to-",
+            "Lead me to the LIVING LAND.",
+            "...",
+            "Are you sure you want to use your key on this?",
+            "Press Right Shift to leave it open.",
+            "Press Right Ctrl to open the door."}
+            ,0,1);
+        }
+        else if(i==9)
+        {
+            GSWE::DynamicTilesArray[i].Socialize(
+            {"This is the door behind the red sign.",
+            "The sign said it is supposed to-",
+            "Lead me to NOTHINGNESS.",
+            "...",
+            "Are you sure you want to use your key on this?",
+            "Press Right Shift to leave it open.",
+            "Press Right Ctrl to open the door."}
+            ,0,1);
+        }
+        else if(i==10)
+        {
+            GSWE::DynamicTilesArray[i].Socialize(
+            {"This is the door behind the blue sign.",
+            "The sign said it is supposed to-",
+            "Lead me to NOTHINGNESS.",
+            "...",
+            "Are you sure you want use your key on this?",
+            "Press Right Shift to leave it open.",
+            "Press Right Ctrl to open the door."}
+            ,0,1);
+        }
+    }
+    else if (Type==GATE0)
     {     
 
         //30 and 2
@@ -65,7 +105,7 @@ void MakeLevel1()
         if (i==6)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Sign1-0",
+             {
              "The door behind me leads you to-",
              "NOTHING."}
             ,0,0);
@@ -73,7 +113,7 @@ void MakeLevel1()
         if (i==28)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Sign1-1",
+             {
              "Every flower here is lying."
              }
             ,0,0);
@@ -84,7 +124,7 @@ void MakeLevel1()
         if (i==5)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Sign2-0",
+             {
              "The door behind me leads you to-",
              "NOTHING."}
             ,0,0);
@@ -92,7 +132,7 @@ void MakeLevel1()
         if (i==3)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Sign2-1",
+             {
              "The fishes below me eat people."}
             ,0,0);
         }
@@ -102,7 +142,7 @@ void MakeLevel1()
         if (i==7)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Sign3-0",
+             {
              "The door behind me leads you to-",
              "the LIVING LAND."
              }
@@ -111,7 +151,7 @@ void MakeLevel1()
         if (i==4)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Sign3-1",
+             {
              "There are 3 Bees in this level."
              }
             ,0,0);
@@ -122,8 +162,10 @@ void MakeLevel1()
         if (i==13)
         {
             GSWE::DynamicTilesArray[i].Socialize(
-            {"Flower0",
-            "The one who always lies is not here."
+            {
+            "The one who always lies is not here.",
+            "...",
+            ": JACKPOT"
             }
             ,0,0);
         }
@@ -133,7 +175,7 @@ void MakeLevel1()
         if (i==11)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Flower1-0",
+             {
              "There is a secret garden around here.",
              "I always tell the truth."}
             ,0,0);
@@ -141,23 +183,32 @@ void MakeLevel1()
         if (i==22)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Flower1-1",
-             "There are 5 bees in this level."
+             {
+             "There are 5 bees in this level.",
+             "...",
+             ": am I supposed to count the bees now?"
              }
             ,0,0);
         }
         if (i==24)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Flower1-2",
-             "Only 2 bees feed from flowers."}
+             {
+             "Only 2 bees feed from flowers.",
+             "...",
+             ": How do you know :/"
+             }
             ,0,0);
         }
         if (i==14)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Flower1-3",
-             "The flower on my left lies sometimes."}
+             {
+             "The flower on my left lies sometimes.",
+             "...",
+             ": Makes sense...",
+             ": Since those fishes don't eat me"
+             }
             ,0,0);
         }
     }
@@ -166,22 +217,31 @@ void MakeLevel1()
         if (i==12)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Flower2-0",
+             {
              "Skeletons can't breath under water."}
             ,0,0);
         }
         if (i==23)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Flower2-1",
-             "One of the fishes is depressed."}
+             {
+             "One of the fishes is depressed.",
+             "...",
+             ": How can I make sure that it is depressed?",
+             "...",
+             "Good question,",
+             "ASK THE HYPE ONE"}
             ,0,0);
         }
         if (i==15)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Flower2-2",
-             "The flower on my right lies sometimes."}
+             {
+             "The flower on my right lies sometimes.",
+             "...",
+             ": He says the same thing!",
+
+             "it's because hes a lier."}
             ,0,0);
         }
     }
@@ -190,14 +250,17 @@ void MakeLevel1()
         if (i==27)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Flower3-0",
-             "Bees feed from honest flowers."}
+             {
+             "Bees feed from honest flowers.",
+             "...",
+             ": How are you so sure?",
+             "Look up"}
             ,0,0);
         }
         if (i==26)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-             {"Flower3-1",
+             {
              "The content written on the sign-",
              "on my left are a bunch of lies."}
             ,0,0);
@@ -394,8 +457,8 @@ void MakeLevel0()
         {
            GSWE::DynamicTilesArray[i].Socialize(
             {"This feature is still unavailable.",
-            "You can still re-open the game,",
-            "If you like to play it so much."}
+            "..."
+            }
             ,0,1); 
         }
     }
@@ -424,7 +487,7 @@ void MakeLevel0()
              ": Isn't that obvious?",
              ": You are dead. and this is afterlife.",
              ": You'r memories are taken away",
-             ": from you. because we are testing you.",
+             ": from you. ",             
              "It seems... so unreal!",
              ": There are various tests wating for you,",
              ": Pass them and you shall travel back",
@@ -513,6 +576,16 @@ void MakeLevel0()
         GSWE::DynamicTilesArray[i].Socialize({"Blob","Blob There",
                                             "Blob Blob"},0,0);
         }
+        GSWE::DynamicTilesArray[i].moveArray=
+        {
+           RIGHT,DOWN,RIGHT,RIGHT,
+           UP,RIGHT,UP,RIGHT,
+           LEFT,DOWN,LEFT,DOWN,
+           LEFT,LEFT,UP,LEFT,STOP,
+           LEFT,LEFT,LEFT,
+           STOP,
+           RIGHT,RIGHT,RIGHT
+        };
     }
 
     if (Type==SIGN0)
@@ -532,7 +605,7 @@ void MakeLevel0()
         else if(i==6)
         {
         GSWE::DynamicTilesArray[i].Socialize(
-            {"Use keys to open chests and doors,","You lose a key if you use it."}
+            {"Use keys to open doors,","You lose a key when you use it."}
             ,0,0);
         }
 
@@ -550,9 +623,8 @@ void MakeLevel0()
             ,0,0);
         }            
     }    
-
-
     }
+
 
     }
 }

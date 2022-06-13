@@ -1,5 +1,6 @@
 #include "mapdata.hpp"
 #include "GSWE.hpp"
+
 bool ValidMove(int p_index,int dircx,int dircy,bool isHero=false)
 {
     bool cond[5]={0,0,0,0,0};
@@ -278,7 +279,9 @@ void FetchEvents(){
                 case SDLK_RIGHT: if(!heldKeys[RIGHT]) heldKeys[RIGHT]=true;break;
                 case SDLK_LEFT: if(!heldKeys[LEFT]) heldKeys[LEFT]=true;break;
 
-                case SDLK_RETURN: if(!heldKeys[RETURN]) heldKeys[RETURN]=true;break;         
+                case SDLK_RETURN: if(!heldKeys[RETURN]) heldKeys[RETURN]=true;break;
+                case SDLK_RSHIFT: if(!heldKeys[RSHIFT]) heldKeys[RSHIFT]=true;break;         
+                case SDLK_RCTRL: if(!heldKeys[RCTRL]) heldKeys[RCTRL]=true;break;         
                 
             }
         }
@@ -295,6 +298,8 @@ void FetchEvents(){
                 case SDLK_LEFT: if(heldKeys[LEFT]) heldKeys[LEFT]=0;break;
 
                 case SDLK_RETURN: if(heldKeys[RETURN]) heldKeys[RETURN]=0;break;
+                case SDLK_RSHIFT: if(heldKeys[RSHIFT]) heldKeys[RSHIFT]=0;break;
+                case SDLK_RCTRL: if(heldKeys[RCTRL]) heldKeys[RCTRL]=0;break;
                 
                 
             }
@@ -304,15 +309,17 @@ void FetchEvents(){
 
 void Init(){
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-    Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
+    // Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
     TTF_Init();
     std::srand(time(0));
     mainWindow.Init("Adventure Game",1000,750);
+
     mainGrid.Init(1000,750,10,8);
+    mainGrid.showGrid=false;
     // mainGrid.backgroundColor={0,0,0};
     SU::gFont = TTF_OpenFont( "./lazy.ttf", 25 );
-    footstep = Mix_LoadWAV("data/footstep0.wav");
-    ding = Mix_LoadWAV("data/ding.wav");
+    // footstep = Mix_LoadWAV("data/footstep0.wav");
+    // ding = Mix_LoadWAV("data/ding.wav");
     
     SDL_SetRenderDrawBlendMode(mainWindow.renderer,
                 SDL_BLENDMODE_BLEND);
@@ -345,8 +352,8 @@ void Init(){
 
     }
 
-    level=1;
-    LoadLevel("data/level1.map");
+    level=0;
+    LoadLevel("data/tutorial.map");
     SocialControl();
     mainGrid.cameraZoom=zoom;
 
@@ -379,13 +386,35 @@ void Interact(){
 
     if (shouldInteract)
     {
-        
+        // Mix_PlayChannel(-1,ding,0);
         int tempIndex = GSWE::DynamicTilesArray[i].imageIndex; 
         std::vector<std::string> tempTextArray;
         mainUi.shouldDraw=true;
        
+
         
-        if((tempIndex==fishFramesLeft[0])||
+        if ((tempIndex==doorFrames[0])||(tempIndex==doorFrames[4]))
+        {
+            if (GSWE::DynamicTilesArray[i].state==1)
+            {
+                if (totoalKeys==1)
+                {
+                    StartConversation(i,tempTextArray);
+                }
+                else
+                {
+                    
+                    tempTextArray.push_back("I already opened a door.");
+                    tempTextArray.push_back("I don't have any keys left.");
+                }
+            }
+            else
+            {
+                StartConversation(i,tempTextArray);
+            }
+           
+        }
+        else if((tempIndex==fishFramesLeft[0])||
            (tempIndex==fishFramesLeft[1])||
            (tempIndex==fishFramesRight[0])||
            (tempIndex==fishFramesRight[1])||
@@ -566,6 +595,8 @@ void HandleAnimation()
         }        
         if (GSWE::DynamicTilesArray[i].state==true) //means if blocked , opening
         {
+            
+
             for (int c=4;c!=0;c--) // This is for Gates
             {
                 if (GSWE::DynamicTilesArray[i].imageIndex == 
@@ -599,6 +630,17 @@ void HandleAnimation()
         }
         else // means if not blocked, closing
         {
+            for (int c=1;c!=4;c++) // For door its the case for opening
+            {
+                if (GSWE::DynamicTilesArray[i].imageIndex==
+                    doorFrames[c])
+                {                    
+                
+                    GSWE::DynamicTilesArray[i].imageIndex=doorFrames[c+1];
+                    break;
+                }
+            }
+
             for (int c=0;c!=5;c++) // This is for Gates
             {
                 if (GSWE::DynamicTilesArray[i].imageIndex == 

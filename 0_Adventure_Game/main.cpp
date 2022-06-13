@@ -4,7 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include <fstream>
-#include <SDL2/SDL_mixer.h>
+// #include <SDL2/SDL_mixer.h>
 
 #include "GSWE.hpp"
 #include "MyWindow.hpp"
@@ -13,8 +13,8 @@
 
 #include "declarations.hpp"
 #include "structures.hpp"
-#include "gameflow.hpp"
 #include "snippets.hpp"
+#include "gameflow.hpp"
 #include "functions.hpp"
 
 
@@ -24,6 +24,7 @@ void CheckEvents(){
     {
         if (GSWE::DynamicTilesArray[heroIndex].pos.x>26)
         {
+            myout(totoalKeys) enter
             myout("Welcome to the next level!\n")
             LoadLevel("data/level1.map");
             
@@ -70,19 +71,38 @@ void CheckEvents(){
             if(MoveDynamicObject(heroIndex,i,tempSpeed,true))
             {
                 triggeredKeys[i]=false;
-                Mix_PlayChannel(-1,footstep,0);        
+                      
             }
         }
     }
 
-
     HandleAnimation();
 
-    if (heldKeys[RETURN]){
-        if (isInConversation){HandleConversation();}
+    if (heldKeys[RETURN]||heldKeys[RCTRL]||
+            heldKeys[RSHIFT]){
+
+        if (isInConversation)
+        {
+
+            if (heldKeys[RETURN])
+            {
+                HandleConversation(RETURN);
+            }
+            else if(heldKeys[RSHIFT])
+            {
+                HandleConversation(RSHIFT);
+            }
+            else if(heldKeys[RCTRL])
+            {
+                HandleConversation(RCTRL);
+            }
+        }
         else{Interact();}
+
         heldKeys[RETURN]=0;
-        Mix_PlayChannel(-1,ding,0);
+        heldKeys[RSHIFT]=0;
+        heldKeys[RCTRL]=0;
+       
     }
 
 }

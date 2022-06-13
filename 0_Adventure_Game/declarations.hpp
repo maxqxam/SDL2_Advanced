@@ -11,7 +11,7 @@ void StartConversation(int,std::vector<std::string>&);
 void HandleConversation();
 void HandleObjectCycles();
 // bool MoveDynamicObject(int,int,int); //Cannot Overload blah blah
-
+void thing();
 bool shouldRun = true;
 bool isInConversation = false;
 int currentConversationId = 0;
@@ -19,13 +19,13 @@ int currentConversationId = 0;
 int heroIndex=0;
 int level=0;
 int totoalKeys=0;
-int heroSpeed = 20;
+int heroSpeed = 10;
 int beeSpeed = 4;
 int fishSpeed = 2;
-float zoom = 0.8;
+float zoom = 1.3;
 
-Mix_Chunk* footstep=NULL; 
-Mix_Chunk* ding=NULL;
+// Mix_Chunk* footstep=NULL; 
+// Mix_Chunk* ding=NULL;
 
 SDL_Event event;
 MyWindow::Window mainWindow;
@@ -42,6 +42,8 @@ enum {
     UP,DOWN,
     RIGHT,LEFT,
     RETURN,
+    RSHIFT,
+    RCTRL,
     STOP=-1,
     FREEZE=-2,
 };
@@ -60,6 +62,7 @@ enum {
     SIGN2=23,
     SIGN3=24,
     
+    DOOR=25,
     FLOWER0=17,
     FLOWER1=18,
     FLOWER2=19,
@@ -76,7 +79,7 @@ enum {
 
 
 bool inWater=false;
-bool heldKeys[5];
+bool heldKeys[7];
 bool triggeredKeys[4];
 
 std::string imagesPath[] = {
@@ -141,12 +144,12 @@ std::string imagesPath[] = {
 
     imagesAddress+"/Tiles1/chest2.png",
     imagesAddress+"/Tiles1/chest3.png",
-    imagesAddress+"/Tiles1/door1.png",
-    imagesAddress+"/Tiles1/door2.png",
+    imagesAddress+"/Tiles1/door1.png",//46
+    imagesAddress+"/Tiles1/door2.png",//47
 
     //48
-    imagesAddress+"/Tiles1/door3.png",
-    imagesAddress+"/Tiles1/door4.png",
+    imagesAddress+"/Tiles1/door3.png",//48
+    imagesAddress+"/Tiles1/door4.png",//49
     imagesAddress+"/Tiles1/lever0-1.png",
     imagesAddress+"/Tiles1/hero1.png",//51
     
@@ -168,6 +171,7 @@ std::string imagesPath[] = {
 
        
 };
+int doorFrames[] = {25,46,47,48,49};
 int heroClimbFrames[] = {55,56};
 int heroLeftFrames[] = {53,54};
 int heroRightFrames[] = {51,52};
