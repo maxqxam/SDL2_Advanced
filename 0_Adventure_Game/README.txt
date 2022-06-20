@@ -8,8 +8,7 @@ I was planing to add 3 more levels (behind the ending doors),
 but unfortunatly my semester exams are just about to start and I had to publish this before 
 the game jam deadline. (4 days sooner).
 
-It was my very first project and I was soooo happy to concentrate on this project for 10 straight days.
+It was my very first project and I was so happy to concentrate on this project for 10 straight days.
 
-TNX for playing , Feel free to peek at the source code at "github.com/maxqxam/SDL2_Advanced"
-
+--Unfortunatly I couldn't export the project for popular platforms So I failed to submit the project--
 
